@@ -24,6 +24,11 @@ const files = [
   ["/icons/icon-192.png", "image/png"],
   ["/icons/icon-512.png", "image/png"],
   ["/icons/icon-maskable-512.png", "image/png"],
+  ["/images/logo-crop.png", "image/png"],
+  ["/images/logo-256.png", "image/png"],
+  ["/images/logo-192.png", "image/png"],
+  ["/images/logo-512.png", "image/png"],
+  ["/images/logo-maskable-512.png", "image/png"],
 ];
 
 let gagal = 0;

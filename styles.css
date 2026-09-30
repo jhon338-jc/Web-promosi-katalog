@@ -1394,13 +1394,25 @@ a {
   gap: 0.7rem;
   margin-bottom: 0.7rem;
 }
+/* Footer: logo wordmark asli. Latar logo putih, jadi diberi plat krem
+   agar tidak terlihat seperti kotak putih melayang di footer gelap. */
 .footer-logo {
-  width: 44px;
-  height: 44px;
+  width: auto;
+  height: 40px;
+  max-width: 150px;
+  object-fit: contain;
+  object-position: left center;
+  background: #fdfcf8;
   border-radius: var(--r-sm);
-  object-fit: cover;
-  background: rgba(255, 255, 255, 0.25);
+  padding: 0.35rem 0.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
   flex: none;
+}
+@media (min-width: 640px) {
+  .footer-logo {
+    height: 46px;
+    max-width: 172px;
+  }
 }
 .footer-name {
   font-family: var(--font-head);
@@ -3119,60 +3131,60 @@ a {
 }
 
 /* --------------------------------------------------------------------------
-   4. AKSEN WARNA PER KATEGORI
-   Setiap kategori dapat "--aksen" sendiri. Dipakai untuk garis atas kartu,
-   chip kategori, dan tombol "Tambah" supaya section tidak terlihat sama.
+   4. AKSEN WARNA PER KATEGORI  (satu keluarga hijau, bukan pelangi)
+   Variasi tetap ada, tapi semua warna diturunkan dari palet eco supaya grid
+   terlihat hidup tanpa berantakan. Oranye #E8A33D hanya untuk badge kecil.
    -------------------------------------------------------------------------- */
 .menu-card {
-  --aksen: var(--amber);
-}
-.menu-card[data-kat*="snack"] {
-  --aksen: #f97316;
+  --aksen: #4a7c3f; /* hijau utama */
 }
 .menu-card[data-kat*="snack series"] {
-  --aksen: #ef4444;
+  --aksen: #3f6b35; /* hijau paling tua */
 }
-.menu-card[data-kat*="dessert"] {
-  --aksen: #ec4899;
-}
-.menu-card[data-kat*="ketan"] {
-  --aksen: #a855f7;
+.menu-card[data-kat*="snack"] {
+  --aksen: #4a7c3f;
 }
 .menu-card[data-kat*="wok"] {
-  --aksen: #ea580c;
+  --aksen: #568a4e;
 }
 .menu-card[data-kat*="chicken"] {
-  --aksen: #d97706;
+  --aksen: #5c8446;
 }
 .menu-card[data-kat*="indomie"] {
-  --aksen: #eab308;
+  --aksen: #6b9455;
 }
 .menu-card[data-kat*="roti"] {
-  --aksen: #b45309;
+  --aksen: #7ba05b; /* hijau muda */
+}
+.menu-card[data-kat*="dessert"] {
+  --aksen: #6f9b60;
+}
+.menu-card[data-kat*="ketan"] {
+  --aksen: #7ba05b;
 }
 .menu-card[data-kat*="minuman"] {
-  --aksen: #0ea5e9;
+  --aksen: #63915a;
 }
 
-/* Garis aksen tipis di atas kartu + chip ikut warna kategori */
-.menu-card {
-  border-top: 3px solid var(--aksen);
-}
+/* Aksen dipakai HANYA di chip kategori - bukan di garis atas kartu,
+   supaya semua kartu terlihat seragam dan rapi. */
 .menu-card[data-kat] .chip-cat {
   background: var(--aksen);
   color: #fff;
 }
+
+/* Tombol "Tambah" selalu hijau utama, seragam di semua kartu. */
 .menu-card[data-kat] .btn-add:not(:disabled) {
-  background: var(--aksen);
+  background: var(--amber);
 }
 .menu-card[data-kat] .btn-add:not(:disabled):hover {
-  filter: brightness(0.92);
+  background: var(--amber-dark);
 }
 
-/* Variasikan rasio foto sedikit per kategori supaya grid tidak "berbaris" */
-.menu-card[data-kat*="minuman"] .menu-card-media,
-.menu-card[data-kat*="dessert"] .menu-card-media {
-  aspect-ratio: 1 / 1;
+/* Rasio foto seragam untuk SEMUA kartu (jangan 1/1 per kategori,
+   itu bikin tinggi baris tidak rata). */
+.menu-card .menu-card-media {
+  aspect-ratio: 4 / 3;
 }
 
 /*aksen tidak boleh menimpa status "habis" */
@@ -3244,12 +3256,25 @@ a {
 }
 
 /* Logo jadi bulat penuh, cocok dengan nuansa "friendly" */
+/* Logo asli WARKAP: wordmark lebar (rasio ~3.6:1).
+   JANGAN pakai object-fit: cover / border-radius bundar, karena logonya
+   bukan bujur sangkar dan akan terpotong. */
 .brand-logo {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--r-full);
-  background: var(--sunny-soft);
-  box-shadow: var(--sh-sm);
+  width: auto;
+  height: 40px;
+  max-width: 148px;
+  object-fit: contain;
+  object-position: left center;
+  border-radius: 6px;
+  background: transparent;
+  box-shadow: none;
+  flex: none;
+}
+@media (min-width: 640px) {
+  .brand-logo {
+    height: 46px;
+    max-width: 172px;
+  }
 }
 
 /* Link navigasi: pill tipis, hijau muda saat hover */
@@ -3463,7 +3488,7 @@ a {
 /* Shorthand "border" di atas menimpa border-top aksen kategori,
    jadi pasang ulang di sini (paling akhir = menang). */
 .menu-card {
-  border-top: 3px solid var(--aksen);
+  border-top: 1px solid var(--line);
 }
 .menu-card.habis {
   border-top-color: var(--line);
@@ -3674,7 +3699,129 @@ a {
 }
 
 /* --------------------------------------------------------------------------
-   10. RESPONSIF
+   11. KONSISTENSI KARTU MENU
+   -------------------------------------------------------------------------- */
+
+/* 11a. Semua kartu dalam satu baris sama tinggi.
+   - 4/3 untuk SEMUA kategori (hapus pengecualian 1/1)
+   - nama maksimal 2 baris, deskripsi 2 baris
+   - baris harga + tombol selalu menempel di bawah (sudah margin-top:auto) */
+@media (min-width: 640px) {
+  .menu-grid {
+    grid-auto-rows: 1fr;
+  }
+  .menu-card {
+    height: 100%;
+  }
+}
+
+.menu-card .menu-card-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* judul rata tengah + tinggi minimum 2 baris supaya semua kartu sama */
+  min-height: calc(1.35em * 2);
+}
+
+/* Deskripsi juga dipaksa minimal 2 baris. Tanpa ini, kartu dengan
+   deskripsi pendek jadi lebih rendah dan grid terlihat tidak rapi. */
+.menu-card .menu-card-desc {
+  min-height: calc(1.5em * 2);
+}
+
+/* 11b. Label "+ varian" jadi chip kecil, bukan teks coret.
+   Coret di samping harga bikin Prices terlihat acak. */
+.price-strike {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--muted);
+  background: var(--sunny-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--r-full);
+  padding: 0.24rem 0.5rem;
+  margin-left: 0.4rem;
+  text-decoration: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.price-strike::before {
+  content: "+ ";
+  opacity: 0.6;
+}
+
+/* 11c. Baris bawah kartu: tinggi tetap + alignment rapi.
+   min-height diset ke 2 baris (harga + chip "+ varian") supaya kartu
+   yang pakai chip dan yang tidak (mis. "Tanya Harga") tetap sama tinggi. */
+.menu-card-foot {
+  min-height: 5rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+  align-items: center;
+}
+.menu-card-foot .price {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.25rem;
+  min-width: 0;
+  line-height: 1.2;
+}
+.menu-card-foot .price .price-strike {
+  margin: 0;
+  align-self: flex-start;
+}
+
+/* 11d. Tombol "Tambah" seragam: lebar & tinggi sama persis di semua kartu
+   (Tambah / Tanya / HABIS semua ukuran yang sama). */
+.btn-add {
+  width: 6.5rem;
+  min-width: 6.5rem;
+  height: 2.6rem;
+  padding-inline: 0.5rem;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 11e. Label "Tanya Harga" seragam, tidak italic */
+.price-tanya {
+  font-style: normal;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* 11f. Chip kategori: tidak menimpa badge status di kanan atas */
+.chip-cat {
+  top: 0.6rem;
+  left: 0.6rem;
+  right: auto;
+  max-width: 58%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.64rem;
+  padding: 0.26rem 0.55rem;
+}
+
+/* 11g. Jarak antar kartu lebih longgar & rapi */
+@media (min-width: 640px) {
+  .menu-grid {
+    gap: 1.25rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   12. RESPONSIF
    -------------------------------------------------------------------------- */
 @media (max-width: 767px) {
   /* Kartu menumpuk sudah_grid, rapatkan jarak antar kartu */

@@ -74,6 +74,18 @@ function getJSON(path) {
   await new Promise((r) => ws.addEventListener("open", r));
   await send("Page.enable");
   await send("Runtime.enable");
+
+  /* Opsional: set lebar viewport, contoh: node probe-style.js <url> <probe> light 1440 */
+  const lebar = Number(process.argv[5]);
+  if (Number.isFinite(lebar) && lebar > 0) {
+    await send("Emulation.setDeviceMetricsOverride", {
+      width: lebar,
+      height: 1200,
+      deviceScaleFactor: 1,
+      mobile: false,
+    });
+  }
+
   await send("Page.navigate", { url });
   await new Promise((r) => setTimeout(r, 3500));
 
@@ -115,6 +127,18 @@ function getJSON(path) {
   console.log("-".repeat(64));
 
   for (const [sel, prop] of pairs) {
+    /* Mode "js:<ekspresi>" untuk menjalankan JS bebas ( diagnostik ). */
+    if (typeof sel === "string" && sel.slice(0, 3) === "js:") {
+      const r = await send("Runtime.evaluate", {
+        expression: sel.slice(3),
+        returnByValue: true,
+        awaitPromise: true,
+      });
+      const v = r && r.result ? r.result.value : JSON.stringify(r && r.exceptionDetails ? r.exceptionDetails.text : "?");
+      console.log("--- JS ---");
+      console.log(typeof v === "string" ? v : JSON.stringify(v, null, 2));
+      continue;
+    }
     const expr = `(function(){
       var el=document.querySelector(${JSON.stringify(sel)});
       if(!el) return "ELEMEN TIDAK ADA";

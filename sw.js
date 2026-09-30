@@ -22,7 +22,7 @@
    ========================================================================== */
 
 /* Naikkan nomor ini setiap kali kamu mengubah file inti website. */
-const CACHE_VERSION = "v2.0.0-warkap";
+const CACHE_VERSION = "v2.1.0-warkap-logo";
 const CACHE_NAME = "katalog-warkap-" + CACHE_VERSION;
 
 /* ------------------------------------------------------------------
@@ -44,6 +44,10 @@ const PRECACHE = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
+  "./images/logo-crop.png",
+  "./images/logo-192.png",
+  "./images/logo-512.png",
+  "./images/logo-maskable-512.png",
 ];
 
 /* Dipakai untuk fallback halaman offline (path relatif terhadap sw.js) */

@@ -48,9 +48,8 @@ const config = {
   /* Warna aksen: warkap (kuning-amber) | teal | terracotta | ungu | forests */
   temaWarna: "warkap",
 
-  // Logo: foto bulat. Ganti ke "images/logo.png" setelah upload.
-  logo:
-    "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=200&h=200&q=80",
+  // Logo WARKAP (file asli: images/logo.png, sudah di-crop + dioptimasi).
+  logo: "images/logo-crop.png",
 
   // Foto banner hero. Rasio ideal: lebar (1600 x 900).
   banner:
