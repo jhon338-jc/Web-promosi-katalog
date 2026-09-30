@@ -82,10 +82,11 @@ function encodePNG(w, h, rgba) {
 
 /* ---------------- Menggambar ---------------- */
 
-const GOLD = [255, 193, 7]; /* #FFC107 */
-const GOLD_DEEP = [255, 143, 0]; /* #FF8F00 */
-const CREAM = [255, 248, 225]; /* #FFF8E1 */
-const BROWN = [78, 52, 46]; /* #4E342E */
+/* Palet eco WARKAP - harus sama dengan blok :root di styles.css */
+const GOLD = [123, 160, 91]; /* #7BA05B hijau muda */
+const GOLD_DEEP = [74, 124, 63]; /* #4A7C3F hijau utama */
+const CREAM = [245, 241, 232]; /* #F5F1E8 krem */
+const BROWN = [46, 74, 38]; /* #2E4A26 hijau gelap */
 
 function mix(a, b, t) {
   return [

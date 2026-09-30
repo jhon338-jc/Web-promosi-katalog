@@ -6,45 +6,48 @@
    Blok ":root" di bawah ini adalah satu-satunya tempat mengatur warna.
    Ganti nilai hex-nya, seluruh website (termasuk dark mode) ikut berubah.
 
-   --------------------------------------------------------------------------
-   DAFTAR WARNA:
-     --sunny       #FFC107  Kuning cerah utama
-     --gold        #FFB300  Kuning keemasan
-     --cream       #FFF8E1  Kuning muda lembut (background)
-     --amber       #FF8F00  Oranye hangat (tombol utama / CTA)
-     --amber-dark  #E65100  Oranye gelap (hover)
-     --brown       #4E342E  Coklat hangat (heading & body text)
-     --muted       #8D6E63  Coklat muda (subtext)
-     --card        #FFFFFF  Putih bersih (kartu)
-     --wa          #25D366  Hijau WhatsApp
-     --promo       #E53935  Merah badge promo
-     --neutral     #F5F5F5  Abu netral (section alternatif)
-   -------------------------------------------------------------------------- */
+   ------------------------------------------------------------------
+   TEMA ECO (WARKAP) - palet hijau, persis sesuai desain:
+     --gold / --amber  #4A7C3F  Hijau utama   -> tombol, aksen, ikon
+     --sunny           #7BA05B  Hijau muda    -> highlight, badge, hover
+     --sage            #A8C686  Hijau sage    -> border card & background section
+     --cream           #F5F1E8  Krem          -> background utama halaman
+     --card            #FDFCF8  Putih tulang  -> card, navbar, container
+     --brown           #2E4A26  Hijau gelap   -> judul & teks utama
+     --muted           #5C6B54  Abu hijau    -> paragraf & deskripsi
+     --promo/--orange  #E8A33D  Oranye hangat -> CTA sekunder & badge kecil
+   ------------------------------------------------------------------ */
 
 /* ==========================================================================
    1. DESIGN TOKEN (CSS VARIABLES)
    ========================================================================== */
 :root {
-  /* --- Palet utama (GANTI DI SINI UNTUK GANTI TEMA) --- */
-  --sunny: #ffc107;
-  --gold: #ffb300;
-  --cream: #fff8e1;
-  --amber: #ff8f00;
-  --amber-dark: #e65100;
-  --brown: #4e342e;
-  --muted: #8d6e63;
-  --card: #ffffff;
+  /* --- Palet utama (GANTI DI SINI UNTUK GANTI TEMA) ---
+     Tema "eco": hijau_primary / hijau_muda / sage / krem / putih_tulang /
+     hijau_gelap / abu_hijau / oranye_hangat.
+     Nama variabel sengaja dibiarkan (sunny/amber/brown/...) supaya seluruh
+     class lama ikut berubah tanpa perlu menulis ulang seluruh CSS. */
+  --sunny: #7ba05b; /* hijau muda  - highlight, badge, hover */
+  --gold: #4a7c3f; /* hijau utama  - tombol & aksen */
+  --cream: #f5f1e8; /* krem       - background utama halaman */
+  --amber: #4a7c3f; /* hijau utama  - tombol utama / CTA */
+  --amber-dark: #3d6634; /* hijau tua  - hover */
+  --brown: #2e4a26; /* hijau gelap - judul & teks utama */
+  --muted: #5c6b54; /* abu hijau  - paragraf & deskripsi */
+  --card: #fdfcf8; /* putih tulang- card, navbar, container */
   --wa: #25d366;
   --wa-dark: #1da851;
-  --promo: #e53935;
-  --neutral: #f5f5f5;
+  --promo: #e8a33d; /* oranye hangat - CTA sekunder & badge kecil */
+  --neutral: #eff3e6; /* sage sangat muda - background section */
+  --sage: #a8c686; /* hijau sage   - border card & aksen */
+  --orange: #e8a33d;
 
   /* --- Turunan warna (dihitung manual, tetap valid) --- */
-  --sunny-soft: #fff3c4;
-  --sunny-tint: #fffbe9;
-  --amber-soft: #ffe3bf;
-  --brown-deep: #3b2822;
-  --line: #f2e4c4;
+  --sunny-soft: #e4eedf;
+  --sunny-tint: #f2f6ea;
+  --amber-soft: #d9e6ce;
+  --brown-deep: #22381c;
+  --line: #d6e2c4;
 
   /* --- Permukaan & teks (dipakai juga untuk mode terang) --- */
   --bg: var(--cream);
@@ -57,29 +60,29 @@
   --border: var(--line);
 
   /* --- Gradien siap pakai --- */
-  --grad-sunny: linear-gradient(135deg, #ffcf3f 0%, #ffb300 45%, #ff8f00 100%);
+  --grad-sunny: linear-gradient(135deg, #a8c686 0%, #7ba05b 45%, #4a7c3f 100%);
   --grad-hero: linear-gradient(
     160deg,
-    #ffe082 0%,
-    #ffc107 35%,
-    #ffb300 65%,
-    #ff8f00 100%
+    #2e4a26 0%,
+    #4a7c3f 38%,
+    #7ba05b 72%,
+    #a8c686 100%
   );
-  --grad-amber: linear-gradient(135deg, #ffb300 0%, #ff8f00 100%);
+  --grad-amber: linear-gradient(135deg, #4a7c3f 0%, #7ba05b 100%);
   --grad-wa: linear-gradient(135deg, #25d366 0%, #1da851 100%);
 
-  /* --- Shadow kecoklatan (bukan hitam) --- */
-  --sh-sm: 0 2px 8px rgba(255, 193, 7, 0.12);
-  --sh: 0 4px 20px rgba(255, 193, 7, 0.15);
-  --sh-lg: 0 12px 36px rgba(255, 143, 0, 0.18);
-  --sh-xl: 0 20px 56px rgba(78, 52, 46, 0.14);
+  /* --- Shadow lembut (warna hijau, bukan hitam) --- */
+  --sh-sm: 0 2px 10px rgba(46, 74, 38, 0.06);
+  --sh: 0 6px 24px rgba(46, 74, 38, 0.08);
+  --sh-lg: 0 14px 40px rgba(46, 74, 38, 0.12);
+  --sh-xl: 0 24px 64px rgba(46, 74, 38, 0.14);
   --sh-inset: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
 
-  /* --- Radius --- */
-  --r-sm: 12px;
-  --r: 16px;
-  --r-lg: 20px;
-  --r-xl: 24px;
+  /* --- Radius (besar & membulat di semua elemen) --- */
+  --r-sm: 14px;
+  --r: 18px;
+  --r-lg: 22px;
+  --r-xl: 28px;
   --r-full: 999px;
 
   /* --- Tipografi --- */
@@ -101,29 +104,39 @@
 }
 
 /* ==========================================================================
-   2. DARK MODE  ->  background coklat gelap #2D1B0E
+   2. DARK MODE  ->  hijau malam, mengikuti tema eco
    Diaktifkan lewat atribut  <html data-theme="dark">
-   Di Tailwind: pakai kelas  dark:bg-[#2D1B0E]  sebagai cadangan.
    ========================================================================== */
 [data-theme="dark"] {
-  --bg: #2d1b0e;
-  --surface: #3b281a;
-  --surface-2: #412c1c;
-  --surface-3: #4a3320;
-  --text: #fff3d6;
-  --text-soft: #d8b98c;
-  --text-invert: #2d1b0e;
-  --border: #5c4028;
+  --bg: #16240f;
+  --surface: #1e3016;
+  --surface-2: #24381c;
+  --surface-3: #2b4222;
+  --text: #eaf3e2;
+  --text-soft: #b3c7a6;
+  --text-invert: #16240f;
+  --border: #35502a;
 
-  /* Warna aksen sedikit diredupkan supaya tidak menyilaukan di gelap */
-  --sunny-soft: #5a4218;
-  --sunny-tint: #46311b;
-  --amber-soft: #5a3a12;
+  /* Aksen diredupkan supaya tidak menyilaukan di gelap */
+  --sunny: #6b8f50;
+  --gold: #5c8446;
+  --cream: #16240f;
+  --card: #1e3016;
+  --brown: #d8e8cc;
+  --muted: #a9bd9c;
+  --sage: #7d9c64;
+  --neutral: #1b2c14;
+  --line: #35502a;
 
-  --sh-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
-  --sh: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --sh-lg: 0 12px 36px rgba(0, 0, 0, 0.5);
-  --sh-xl: 0 20px 56px rgba(0, 0, 0, 0.55);
+  --sunny-soft: #26381c;
+  --sunny-tint: #22341a;
+  --amber-soft: #2a3d1e;
+  --brown-deep: #101a0b;
+
+  --sh-sm: 0 2px 10px rgba(0, 0, 0, 0.32);
+  --sh: 0 6px 24px rgba(0, 0, 0, 0.38);
+  --sh-lg: 0 14px 40px rgba(0, 0, 0, 0.46);
+  --sh-xl: 0 24px 64px rgba(0, 0, 0, 0.52);
 
   color-scheme: dark;
 }
@@ -415,8 +428,8 @@ a {
   text-shadow: 0 2px 0 rgba(255, 255, 255, 0.35);
 }
 [data-theme="dark"] .hero-title {
-  color: #fff6df;
-  text-shadow: none;
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(20, 40, 15, 0.45);
 }
 
 .hero-tagline {
@@ -426,7 +439,7 @@ a {
   font-size: clamp(1rem, 2.4vw, 1.25rem);
 }
 [data-theme="dark"] .hero-tagline {
-  color: #ffe9bf;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* Lencana status buka / tutup */
@@ -680,8 +693,8 @@ a {
   white-space: nowrap;
 }
 .badge-best {
-  background: linear-gradient(135deg, #ffca28, #ff8f00);
-  color: #4e342e;
+  background: linear-gradient(135deg, #e8a33d, #d18b28);
+  color: #ffffff;
 }
 .badge-baru {
   background: linear-gradient(135deg, #4fc3f7, #0288d1);
@@ -974,7 +987,7 @@ a {
   color: var(--text);
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238D6E63' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235C6B54' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.65rem center;
   background-size: 15px;
@@ -1358,7 +1371,7 @@ a {
    16. FOOTER
    ========================================================================== */
 .footer {
-  background: linear-gradient(160deg, #ffb300 0%, #ff8f00 55%, #e65100 100%);
+  background: var(--brown);
   color: #fff;
   padding-block: 2.75rem 1.25rem;
 }
@@ -3173,4 +3186,527 @@ a {
    -------------------------------------------------------------------------- */
 [hidden] {
   display: none !important;
+}
+
+/* ==========================================================================
+   TEMA ECO - LAPIRAN TAMPILAN (menimpa gaya lama, isi konten tetap WARKAP)
+   --------------------------------------------------------------------------
+   1. Navbar pill melayang (putih tulang)
+   2. Hero: gradien hutan gelap -> sage + overlay foto, teks terang
+   3. Spasi section lega (60-80px)
+   4. Card: radius besar, shadow lembut, hover naik + foto zoom-in
+   5. Tombol: hijau solid, hover berubah warna
+   6. Fakta hero & chip fasilitas jadi kartu kaca (glass) di atas hero
+   7. Footer minimal + titik navigasi
+   8. Responsif: kartu menumpuk, navbar jadi pill penuh di layar kecil
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. NAVBAR PILL MELAYANG
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 0;
+  padding-block: 0.85rem;
+  transition: background-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.site-header > .container-x > .header-inner {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-full);
+  box-shadow: var(--sh);
+  padding: 0.5rem 0.6rem 0.5rem 1rem;
+}
+@media (min-width: 768px) {
+  .site-header > .container-x > .header-inner {
+    padding: 0.55rem 0.7rem 0.55rem 1.25rem;
+  }
+}
+.site-header:hover > .container-x > .header-inner,
+.site-header:focus-within > .container-x > .header-inner {
+  box-shadow: var(--sh-lg);
+}
+
+@media (max-width: 639px) {
+  .site-header {
+    position: relative;
+    padding-block: 0.6rem;
+  }
+  .site-header > .container-x > .header-inner {
+    border-radius: var(--r-full);
+    padding: 0.45rem 0.5rem 0.45rem 0.85rem;
+  }
+}
+
+/* Logo jadi bulat penuh, cocok dengan nuansa "friendly" */
+.brand-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-full);
+  background: var(--sunny-soft);
+  box-shadow: var(--sh-sm);
+}
+
+/* Link navigasi: pill tipis, hijau muda saat hover */
+.nav-link {
+  border-radius: var(--r-full);
+  padding: 0.5rem 0.9rem;
+  transition:
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+.nav-link:hover,
+.nav-link:focus-visible {
+  background: var(--sunny-soft);
+  color: var(--amber-dark);
+}
+.nav-link.active {
+  background: var(--sunny-soft);
+  color: var(--amber-dark);
+}
+
+/* Tombol aksi di navbar tetap hijau solid */
+.header-actions .btn-wa {
+  border-radius: var(--r-full);
+  box-shadow: 0 4px 16px rgba(74, 124, 63, 0.28);
+}
+.header-actions .btn-wa:hover:not(:disabled) {
+  background: var(--amber-dark);
+  box-shadow: 0 8px 24px rgba(61, 102, 52, 0.34);
+}
+
+/* --------------------------------------------------------------------------
+   2. HERO: GRADIEN HUTAN -> SAGE + OVERLAY FOTO
+   -------------------------------------------------------------------------- */
+.hero {
+  margin-top: -0.85rem;
+  padding-block: 3.5rem 4.5rem;
+  border-radius: 0 0 var(--r-xl) var(--r-xl);
+  background: var(--grad-hero);
+}
+@media (min-width: 768px) {
+  .hero {
+    margin-top: -0.85rem;
+    padding-block: 5rem 6rem;
+  }
+}
+
+/* Foto rumah / pepohonan di atas gradien */
+.hero::before {
+  background-image: var(--hero-img);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  filter: saturate(1.05);
+}
+
+/* Overlay hijau supaya teks putih selalu terbaca */
+.hero::after {
+  background: linear-gradient(
+    165deg,
+    rgba(46, 74, 38, 0.86) 0%,
+    rgba(46, 74, 38, 0.62) 38%,
+    rgba(74, 124, 63, 0.5) 70%,
+    rgba(123, 160, 91, 0.42) 100%
+  );
+}
+
+/* Cahaya matahari halus di pojok kanan atas */
+.hero-sun {
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(232, 163, 61, 0.28) 45%,
+    rgba(255, 255, 255, 0) 70%
+  );
+}
+
+/* Teks hero jadi terang karena latar sekarang gelap */
+.hero-title {
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(20, 40, 15, 0.35);
+}
+.hero-tagline {
+  color: rgba(255, 255, 255, 0.92);
+}
+[data-theme="dark"] .hero-title {
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(20, 40, 15, 0.45);
+}
+[data-theme="dark"] .hero-tagline {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Class utilitas Tailwind di dalam hero ikut jadi terang */
+.hero .text-brown\/80,
+.hero .text-brown {
+  color: rgba(255, 255, 255, 0.86) !important;
+}
+
+/* Lencana status: kaca hijau, tetap terbaca di atas foto */
+.status-pill {
+  background: rgba(253, 252, 248, 0.16);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: none;
+}
+
+/* Kartu fakta hero: kaca terang di atas hero gelap */
+.hero .hero-fact {
+  background: rgba(253, 252, 248, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: none;
+}
+.hero .hero-fact .hero-fact-ico {
+  color: var(--sage);
+}
+.hero .hero-fact-star {
+  color: #ffe6b0;
+}
+.hero .hero-fact-star .opacity-70 {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.hero .hero-fact-24 {
+  color: #bff0cd;
+  background: rgba(37, 211, 102, 0.2);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+/* Chip fasilitas di hero */
+.hero .chip-fasilitas {
+  color: #ffffff;
+  background: rgba(253, 252, 248, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.hero .chip-fasilitas svg {
+  color: var(--sage);
+}
+
+/* Kartu foto di kolom kanan hero */
+.hero .rounded-3xl {
+  border-radius: var(--r-xl);
+  box-shadow: 0 24px 64px rgba(20, 40, 15, 0.32) !important;
+}
+.hero .bg-gradient-to-t {
+  background-image: linear-gradient(
+    to top,
+    rgba(46, 74, 38, 0.85) 0%,
+    rgba(74, 124, 63, 0.25) 55%,
+    rgba(46, 74, 38, 0) 100%
+  );
+}
+.hero .bg-white\/95 {
+  background: rgba(253, 252, 248, 0.94) !important;
+}
+.hero .from-gold,
+.hero .to-amber {
+  --tw-gradient-from: var(--gold) var(--tw-gradient-from-position);
+  --tw-gradient-to: var(--sunny) var(--tw-gradient-to-position);
+}
+
+/* --------------------------------------------------------------------------
+   3. SPASI SECTION LEGA (60-80px)
+   -------------------------------------------------------------------------- */
+.section {
+  padding-block: 3.75rem;
+}
+@media (min-width: 768px) {
+  .section {
+    padding-block: 5rem;
+  }
+}
+.section-head {
+  margin-bottom: 2.5rem;
+}
+@media (min-width: 768px) {
+  .section-head {
+    margin-bottom: 3.25rem;
+  }
+}
+
+/* Latar section alternatif pakai sage sangat muda */
+.bg-neutral {
+  background-color: var(--neutral);
+}
+
+/* --------------------------------------------------------------------------
+   4. CARD: RADIUS BESAR, SHADOW LEMBUT, HOVER NAIK + FOTO ZOOM
+   -------------------------------------------------------------------------- */
+.menu-card,
+.info-card,
+.testi-card,
+.faq-item,
+.gallery-item,
+.admin-card {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  box-shadow: var(--sh-sm);
+  background: var(--card);
+  transition:
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+/* Shorthand "border" di atas menimpa border-top aksen kategori,
+   jadi pasang ulang di sini (paling akhir = menang). */
+.menu-card {
+  border-top: 3px solid var(--aksen);
+}
+.menu-card.habis {
+  border-top-color: var(--line);
+}
+
+.menu-card:hover,
+.info-card:hover,
+.gallery-item:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sh-lg);
+  border-color: var(--sunny);
+}
+
+/* Foto di dalam card zoom pelan saat hover */
+.menu-card .menu-card-media {
+  border-radius: calc(var(--r-lg) - 1px) calc(var(--r-lg) - 1px) 0 0;
+  overflow: hidden;
+}
+.menu-card .menu-card-media img,
+.gallery-item img {
+  transition: transform 420ms var(--ease);
+}
+.menu-card:hover .menu-card-media img,
+.gallery-item:hover img {
+  transform: scale(1.06);
+}
+
+/* Judul card sedikit berubah warna saat hover */
+.menu-card:hover .menu-card-name {
+  color: var(--amber-dark);
+}
+.gallery-item:hover .gallery-cap {
+  color: var(--sage);
+}
+
+/* --------------------------------------------------------------------------
+   5. TOMBOL
+   -------------------------------------------------------------------------- */
+.btn {
+  border-radius: var(--r-full);
+  font-weight: 700;
+}
+.btn-primary {
+  background: var(--grad-amber);
+  box-shadow: 0 6px 20px rgba(74, 124, 63, 0.32);
+}
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--amber-dark), #33562c);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(61, 102, 52, 0.38);
+}
+
+.btn-sun {
+  background: var(--card);
+  color: var(--amber-dark);
+  border: 1px solid var(--line);
+  box-shadow: var(--sh-sm);
+}
+.btn-sun:hover:not(:disabled) {
+  background: var(--sunny);
+  color: #ffffff;
+  border-color: var(--sunny);
+  transform: translateY(-2px);
+}
+
+/* Tombol di dalam hero: putih tulang, hover jadi hijau muda */
+.hero .btn-sun {
+  background: rgba(253, 252, 248, 0.94);
+  color: var(--amber-dark);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.hero .btn-sun:hover:not(:disabled) {
+  background: var(--sunny);
+  color: #ffffff;
+  border-color: var(--sunny);
+}
+
+/* Tombol "Tambah" di card mengikuti warna aksen kategori */
+.btn-add {
+  border-radius: var(--r-full);
+  transition:
+    background-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+.menu-card:hover .btn-add:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(46, 74, 38, 0.22);
+}
+
+/* Ikon outline hijau */
+.btn svg,
+.icon-btn svg {
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   6. BADGE & CHIP
+   -------------------------------------------------------------------------- */
+.chip-cat {
+  border-radius: var(--r-full);
+}
+.badge {
+  border-radius: var(--r-full);
+}
+
+/* Filter kategori */
+.filter-chip {
+  border-radius: var(--r-full);
+  border: 1px solid var(--line);
+  background: var(--card);
+  transition:
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+.filter-chip:hover {
+  background: var(--sunny-soft);
+  border-color: var(--sunny);
+}
+.filter-chip.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   7. FOOTER MINIMAL + TITIK NAVIGASI
+   -------------------------------------------------------------------------- */
+.site-footer,
+.footer {
+  background: var(--brown);
+  color: rgba(255, 255, 255, 0.86);
+}
+[data-theme="dark"] .site-footer,
+[data-theme="dark"] .footer {
+  background: var(--brown-deep);
+}
+.footer-label {
+  color: var(--sage);
+  letter-spacing: 0.14em;
+}
+.footer-list a,
+.footer-link {
+  color: rgba(255, 255, 255, 0.82);
+  border-radius: var(--r-full);
+  padding: 0.25rem 0.6rem;
+  display: inline-block;
+  transition:
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+.footer-list a:hover,
+.footer-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+/* Titik navigasi (dots) */
+.footer-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+.footer-dots a {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-full);
+  background: rgba(255, 255, 255, 0.32);
+  transition:
+    background-color var(--dur) var(--ease),
+    width var(--dur) var(--ease);
+}
+.footer-dots a:hover,
+.footer-dots a[aria-current="page"] {
+  background: var(--sage);
+  width: 22px;
+}
+
+/* --------------------------------------------------------------------------
+   8. DARK MODE NYUSULAI
+   Class Tailwind (bg-cream / text-brown) di <body> lebih "kuat" daripada
+   selector body biasa, jadi butuh satu tingkat lebih spesifik di sini.
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   9. SEARCH / INPUT BULAT
+   -------------------------------------------------------------------------- */.input,
+.select,
+.search-box {
+  border-radius: var(--r-full);
+  border: 1px solid var(--line);
+  background: var(--card);
+  transition:
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+.input:focus,
+.select:focus {
+  border-color: var(--sunny);
+  box-shadow: 0 0 0 4px rgba(123, 160, 91, 0.18);
+}
+
+/* --------------------------------------------------------------------------
+   10. RESPONSIF
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  /* Kartu menumpuk sudah_grid, rapatkan jarak antar kartu */
+  .menu-grid {
+    gap: 1rem;
+  }
+  .menu-card:hover {
+    transform: translateY(-3px);
+  }  /* Judul section lebih rapat di HP */
+  .hero-title {
+    font-size: clamp(1.85rem, 8.5vw, 2.6rem);
+  }
+  /* Fakta & chip tetap wrap rapi */
+  .hero-facts {
+    gap: 0.4rem;
+  }
+  .hero-fact {
+    font-size: 0.78rem;
+    padding: 0.38rem 0.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-card,
+  .menu-card .menu-card-media img,
+  .gallery-item img,
+  .btn,
+  .btn-add {
+    transition: none !important;
+  }
+  .menu-card:hover,
+  .gallery-item:hover {
+    transform: none;
+  }
 }

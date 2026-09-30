@@ -16,7 +16,7 @@
 
     <meta name="keywords" content="warkap cianjur, warkop by diatap, katalog menu, kedai kopi 24 jam, pesan makanan, takeaway, sawah" />
     <meta name="author" content="WARKAP (Warkop by diatap) CIANJUR" />
-    <meta name="theme-color" content="#FFC107" />
+    <meta name="theme-color" content="#4A7C3F" />
     <link rel="canonical" href="./" />
 
     <!-- Open Graph (saat dibagikan ke WhatsApp / Facebook) -->
@@ -76,27 +76,36 @@
          =================================================================== -->
     <script src="https://cdn.tailwindcss.com?plugins=line-clamp"></script>
     <script>
-      // Konfigurasi warna Tailwind disamakan dengan palet di styles.css
+      // Konfigurasi warna Tailwind = palet eco di styles.css.
+      // Nama class sengaja sama (cream/amber/brown/...) supaya markup lama
+      // otomatis berubah warna saat palet diganti.
       tailwind.config = {
         darkMode: ["class", '[data-theme="dark"]'],
         theme: {
           extend: {
             colors: {
-              sunny: "#FFC107",
-              gold: "#FFB300",
-              cream: "#FFF8E1",
-              amber: "#FF8F00",
-              amberdark: "#E65100",
-              brown: "#4E342E",
-              muted: "#8D6E63",
+              sunny: "#7BA05B",
+              gold: "#4A7C3F",
+              cream: "#F5F1E8",
+              amber: "#4A7C3F",
+              amberdark: "#3D6634",
+              brown: "#2E4A26",
+              muted: "#5C6B54",
+              sage: "#A8C686",
+              orange: "#E8A33D",
+              bone: "#FDFCF8",
               wasup: "#25D366",
-              promo: "#E53935",
+              promo: "#E8A33D",
             },
             fontFamily: {
               head: ["Plus Jakarta Sans", "sans-serif"],
               body: ["Inter", "sans-serif"],
             },
-            borderRadius: { xl: "24px", "2xl": "28px" },
+            borderRadius: { xl: "22px", "2xl": "28px", "3xl": "34px" },
+            boxShadow: {
+              soft: "0 6px 24px rgba(46,74,38,0.08)",
+              lift: "0 18px 48px rgba(46,74,38,0.16)",
+            },
           },
         },
       };
@@ -108,7 +117,7 @@
     <!-- Fallback favicon inline, dipakai kalau /icons/ belum ada -->
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23FFC107'/%3E%3Ctext x='50' y='68' font-size='54' text-anchor='middle' fill='%234E342E' font-family='sans-serif'%3E%F0%9F%8D%B5%3C/text%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%234A7C3F'/%3E%3Ctext x='50' y='68' font-size='54' text-anchor='middle' fill='%23FDFCF8' font-family='sans-serif'%3E%E2%98%95%3C/text%3E%3C/svg%3E"
     />
 
     <!-- Structured data (schema.org Restaurant) di-isi script.js dari config.js -->
@@ -390,7 +399,7 @@
                       Dapur Dibuka Setiap Hari
                     </p>
                     <p class="text-xs text-muted" id="hero-card-sub">
-                      Pesan sekarang, নির-free ongkir untuk area dekat
+                      Pesan sekarang, tanpa ongkir untuk area dekat
                     </p>
                   </div>
                   <span
@@ -972,6 +981,17 @@
             </ul>
           </div>
         </div>
+
+        <!-- Titik navigasi (dot navigasi) -->
+        <nav class="footer-dots" aria-label="Navigasi section">
+          <a href="#top" aria-label="Beranda" aria-current="page"></a>
+          <a href="#info" aria-label="Info warung"></a>
+          <a href="#menu" aria-label="Menu"></a>
+          <a href="#galeri" aria-label="Galeri"></a>
+          <a href="#testimoni" aria-label="Ulasan"></a>
+          <a href="#faq" aria-label="FAQ"></a>
+          <a href="#lokasi" aria-label="Lokasi"></a>
+        </nav>
 
         <div class="footer-bottom">
           <p>
