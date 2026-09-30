@@ -245,6 +245,90 @@
      4. INFO WARUNG & STATUS BUKA/TUTUP
      ======================================================================== */
 
+  /* Kumpulan ikon garis (stroke) yang dipakai di beberapa tempat.
+     Dipisah supaya tidak menulis ulang <svg> panjang berulang kali. */
+  const ICONS = {
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    star: '<path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',
+    tag: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor"/>',
+    users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    store: '<path d="m2 7 1.5-4h17L22 7"/><path d="M2 7h20v3a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1-2 2V7Z"/><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    help: '<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+  };
+
+  /** Ikon svg kecil (dipakai ulang) */
+  function svgIc(nama, extra) {
+    return svg(ICONS[nama] || "", extra);
+  }
+
+  /**
+   * Kartu fakta di bawah hero: kategori bisnis, rating, jumlah ulasan,
+   * rentang harga, dan ikon 24 jam. Data diambil dari config.js.
+   */
+  function renderHeroFacts() {
+    const box = $("hero-facts");
+    if (!box) return;
+
+    const kartu = [];
+
+    if (CFG.kategoriBisnis) {
+      kartu.push(
+        { ikon: "store", isi: esc(CFG.kategoriBisnis) }
+      );
+    }
+
+    const rating = Number(CFG.rating);
+    if (Number.isFinite(rating) && rating > 0) {
+      const ulas = Number(CFG.jumlahUlasan || 0);
+      const angkaUlasan = ulas
+        ? '<span class="opacity-70"> (' + ulas.toLocaleString("id-ID") + " ulasan)</span>"
+        : "";
+      kartu.push({
+        ikon: null,
+        kelas: "hero-fact hero-fact-star",
+        isi:
+          svgIc("star", ' class="h-4 w-4 flex-none fill-current"') +
+          "<b>" +
+          rating.toFixed(1).replace(".", ",") +
+          "</b>" +
+          '<span class="opacity-70">/5</span>' +
+          angkaUlasan,
+      });
+    }
+
+    if (CFG.rentangHarga) {
+      kartu.push({ ikon: "tag", isi: esc(CFG.rentangHarga) });
+    }
+
+    if (buka24Jam()) {
+      kartu.push({
+        ikon: "moon",
+        isi: "Buka nonstop",
+        kelas: "hero-fact hero-fact-24",
+      });
+    }
+
+    if (!kartu.length) {
+      box.hidden = true;
+      return;
+    }
+
+    box.hidden = false;
+    box.innerHTML = kartu
+      .map(function (k) {
+        const kelas = k.kelas || "hero-fact";
+        const badge = k.ikon
+          ? '<span class="hero-fact-ico">' + svgIc(k.ikon) + "</span>"
+          : "";
+        return (
+          '<div class="' + kelas + '">' + badge + "<span>" + k.isi + "</span></div>"
+        );
+      })
+      .join("");
+  }
+
   /** "08:00-21:00" -> { buka: 480, tutup: 1260 } dalam menit */
   function parseJam(teks) {
     if (!teks) return null;
@@ -274,6 +358,30 @@
     return hari === 0 || hari === 6 ? jb.sabtu_minggu : jb.senin_jumat;
   }
 
+  /** Warung buka nonstop 24 jam? (config.js -> jamBuka.buka24Jam) */
+  function buka24Jam() {
+    return !!(CFG.jamBuka && CFG.jamBuka.buka24Jam);
+  }
+
+  /** Teks ringkas jam buka untuk hero / footer */
+  function labelJamBuka() {
+    const jb = CFG.jamBuka || {};
+    if (buka24Jam()) return jb.label24Jam || "Buka 24 jam, setiap hari";
+    return "";
+  }
+
+  /** Baris jam buka (dipakai hero, footer, dan info) */
+  function barisJamBuka() {
+    const jb = CFG.jamBuka || {};
+    if (buka24Jam()) {
+      return [{ label: "Setiap hari", value: jb.label24Jam || "24 jam" }];
+    }
+    return [
+      { label: "Senin - Jumat", value: jamPretty(jb.senin_jumat) || "-" },
+      { label: "Sabtu - Minggu", value: jamPretty(jb.sabtu_minggu) || "-" },
+    ];
+  }
+
   /** Perbarui lencana BUKA / TUTUP. Dipanggil ulang tiap 30 detik. */
   function updateStatus() {
     const pill = $("status-pill");
@@ -295,6 +403,9 @@
 
     if (tutupHari.indexOf(hariIni) !== -1) {
       label = "TUTUP hari " + namaHari;
+    } else if (buka24Jam()) {
+      buka = true;
+      label = "BUKA 24 JAM - " + (CFG.jamBuka.label24Jam || "setiap hari");
     } else if (p) {
       const sekarang = new Date().getHours() * 60 + new Date().getMinutes();
       // Menangani jam buka yang melewati tengah malam (buka > tutup)
@@ -374,29 +485,65 @@
       'url("' + fotoURL(CFG.banner) + '")'
     );
 
+    /* Palet warna (config.js -> temaWarna). Owner bisa ganti tanpa sentuh CSS. */
+    if (CFG.temaWarna) {
+      document.documentElement.setAttribute("data-warna", CFG.temaWarna);
+    }
+
     /* Jam buka ringkas di hero */
     const hJam = $("hero-jam");
     if (hJam) {
-      const jb = CFG.jamBuka || {};
       const ikon =
         '<svg class="h-4 w-4 flex-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ' +
         'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" ' +
         'stroke-linejoin="round" aria-hidden="true">' +
         '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
-      hJam.innerHTML =
-        '<span class="inline-flex items-center gap-1.5">' + ikon +
-        "Senin - Jumat: " + esc(jamPretty(jb.senin_jumat)) + "</span>" +
-        '<span class="inline-flex items-center gap-1.5">' + ikon +
-        "Sabtu - Minggu: " + esc(jamPretty(jb.sabtu_minggu)) + "</span>";
+      hJam.innerHTML = barisJamBuka()
+        .map(function (b) {
+          return (
+            '<span class="inline-flex items-center gap-1.5">' +
+            ikon +
+            esc(b.label + ": " + b.value) +
+            "</span>"
+          );
+        })
+        .join("");
+    }
+
+    /* Rating + ulasan + rentang harga + kategori bisnis */
+    renderHeroFacts();
+
+    /* Chip fasilitas */
+    const wrapFas = $("hero-fasilitas");
+    const listFas = $("hero-fasilitas-list");
+    if (wrapFas && listFas) {
+      const fas = Array.isArray(CFG.fasilitas) ? CFG.fasilitas : [];
+      if (fas.length) {
+        listFas.innerHTML = fas
+          .map(function (f) {
+            return (
+              '<span class="chip-fasilitas">' + svgIc("check") + esc(f) + "</span>"
+            );
+          })
+          .join("");
+        wrapFas.hidden = false;
+      } else {
+        wrapFas.hidden = true;
+      }
     }
 
     /* Teks kartu kecil di hero */
     const cardSub = $("hero-card-sub");
     if (cardSub) {
       const o = CFG.ongkir || {};
-      cardSub.textContent = o.aktif
-        ? "Gratis ongkir untuk area " + (o.area || "dekat")
-        : "Dapur dibuka setiap hari, dari pagi sampai malam";
+      if (o.aktif) {
+        cardSub.textContent =
+          "Gratis ongkir untuk area " + (o.area || "dekat");
+      } else if (buka24Jam()) {
+        cardSub.textContent = "Buka nonstop, tiap hari, tanpa tutup";
+      } else {
+        cardSub.textContent = "Dapur dibuka setiap hari, dari pagi sampai malam";
+      }
     }
 
     /* Telepon */
@@ -463,12 +610,33 @@
         value: esc(CFG.alamatLengkap || CFG.alamat || "-"),
       },
       {
-        i: ikon('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),
-        label: "Jam Buka",
-        value:
-          esc("Senin - Jumat: " + jamPretty(jb.senin_jumat)) +
-          "<br>" +
-          esc("Sabtu - Minggu: " + jamPretty(jb.sabtu_minggu)),
+        i: ikon(ICONS.clock),
+        label: buka24Jam() ? "Jam Buka" : "Jam Buka",
+        value: barisJamBuka()
+          .map(function (b) {
+            return esc(b.label + ": " + b.value);
+          })
+          .join("<br>"),
+      },
+      {
+        i: ikon(ICONS.star),
+        label: "Rating",
+        value: (function () {
+          const rating = Number(CFG.rating);
+          if (!Number.isFinite(rating) || rating <= 0) return esc("-");
+          const ulas = Number(CFG.jumlahUlasan || 0);
+          return (
+            "<b>" +
+            rating.toFixed(1).replace(".", ",") +
+            "/5</b>" +
+            (ulas ? esc(" dari " + ulas.toLocaleString("id-ID") + " ulasan") : "")
+          );
+        })(),
+      },
+      {
+        i: ikon(ICONS.tag),
+        label: "Rentang Harga",
+        value: esc(CFG.rentangHarga || "-"),
       },
       {
         i: ikon(
@@ -511,11 +679,17 @@
     const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
     const tutupHari = Array.isArray(jb.hariTutup) ? jb.hariTutup : [];
 
-    let html =
-      '<li class="flex items-start justify-between gap-2"><span>Senin - Jumat</span>' +
-      '<strong class="shrink-0 text-white">' + esc(jamPretty(jb.senin_jumat) || "-") + "</strong></li>" +
-      '<li class="flex items-start justify-between gap-2"><span>Sabtu - Minggu</span>' +
-      '<strong class="shrink-0 text-white">' + esc(jamPretty(jb.sabtu_minggu) || "-") + "</strong></li>";
+    let html = barisJamBuka()
+      .map(function (b) {
+        return (
+          '<li class="flex items-start justify-between gap-2"><span>' +
+          esc(b.label) +
+          '</span><strong class="shrink-0 text-white">' +
+          esc(b.value) +
+          "</strong></li>"
+        );
+      })
+      .join("");
 
     if (tutupHari.length) {
       html +=
@@ -714,18 +888,21 @@
       .map(function (m) {
         const tersedia = m.tersedia !== false;
         const harga = Number(m.harga) || 0;
+        const tanyaHarga = harga <= 0;
         const punyaVarian = m.varian && Object.keys(m.varian).length > 0;
-        const adaTombolDetail = punyaVarian && tersedia;
+        const adaTombolDetail = punyaVarian && tersedia && !tanyaHarga;
+        const kat = (m.kategori || "").trim();
 
         return (
           '<article class="menu-card reveal' + (tersedia ? "" : " habis") +
-          '" data-id="' + esc(m.id) + '">' +
+          '" data-id="' + esc(m.id) + '"' +
+          (kat ? ' data-kat="' + esc(kat.toLowerCase()) + '"' : "") + ">" +
 
           /* Foto 4:3 + badge kategori + badge status */
           '<div class="menu-card-media">' +
           '<img src="' + esc(fotoURL(m.foto)) + '" alt="' + esc(m.nama) + '" ' +
           'loading="lazy" decoding="async" width="400" height="300" onerror="' + ONERR + '">' +
-          (m.kategori ? '<span class="chip-cat">' + esc(m.kategori) + "</span>" : "") +
+          (kat ? '<span class="chip-cat">' + esc(kat) + "</span>" : "") +
           '<span class="absolute right-2 top-2">' + badgeHTML(m.badge, tersedia) + "</span>" +
           "</div>" +
 
@@ -734,15 +911,21 @@
           '<p class="menu-card-desc">' + esc(m.deskripsi || "") + "</p>" +
 
           '<div class="menu-card-foot">' +
-          '<span class="price">' + formatRupiah(harga) +
-          (punyaVarian ? '<span class="price-strike">+ varian</span>' : "") + "</span>" +
+          '<span class="price' + (tanyaHarga ? " price-tanya" : "") + '">' +
+          (tanyaHarga ? "Tanya Harga" : formatRupiah(harga)) +
+          (punyaVarian && !tanyaHarga
+            ? '<span class="price-strike">+ varian</span>'
+            : "") +
+          "</span>" +
           '<button class="btn-add" type="button" data-add="' + esc(m.id) + '"' +
-          (tersedia ? "" : ' disabled aria-disabled="true"') + ">" +
-          (tersedia
-            ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" ' +
-              'stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">' +
-              '<path d="M12 5v14M5 12h14"/></svg> Tambah'
-            : "HABIS") +
+          (!tersedia || tanyaHarga ? ' disabled aria-disabled="true"' : "") + ">" +
+          (!tersedia
+            ? "HABIS"
+            : tanyaHarga
+              ? svgIc("tag", ' class="h-4 w-4"') + " Tanya"
+              : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" ' +
+                'stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">' +
+                '<path d="M12 5v14M5 12h14"/></svg> Tambah') +
           "</button></div>" +
 
           (adaTombolDetail
@@ -814,6 +997,13 @@
     if (!item) return;
     if (item.tersedia === false) {
       toast(item.nama + " sedang HABIS. Silakan pilih menu lain ya.", "err");
+      return;
+    }
+    if (Number(item.harga) <= 0) {
+      toast(
+        "Harga " + item.nama + " belum dipublikasikan. Silakan tanya langsung ke kasir atau WhatsApp kami.",
+        "info"
+      );
       return;
     }
 
@@ -1932,7 +2122,9 @@
     const ikon =
       jenis === "ok"
         ? '<path d="M20 6 9 17l-5-5"/>'
-        : '<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>';
+        : jenis === "info"
+          ? '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>'
+          : '<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>';
 
     const el = document.createElement("div");
     el.className = "toast " + jenis;
@@ -2008,6 +2200,13 @@
         if (!item) return;
         if (item.tersedia === false) {
           toast(item.nama + " sedang HABIS.", "err");
+          return;
+        }
+        if (Number(item.harga) <= 0) {
+          toast(
+            "Harga " + item.nama + " belum dipublikasikan. Silakan tanya langsung ke kasir atau WhatsApp kami.",
+            "info"
+          );
           return;
         }
         const punyaVarian = item.varian && Object.keys(item.varian).length > 0;
@@ -3096,38 +3295,71 @@
     setMeta('meta[name="twitter:description"]', deskripsi);
     setMeta('meta[name="twitter:image"]', gambar);
 
-    /* Schema.org Restaurant */
+    /* Schema.org: CafeOrCoffeeShop untuk kedai kopi, Restaurant untuk warung */
     const jb = CFG.jamBuka || {};
+    const rating = Number(CFG.rating);
     const schema = {
       "@context": "https://schema.org",
-      "@type": "Restaurant",
+      "@type": /kopi|coffee|cafe|kedai/i.test(CFG.kategoriBisnis || "")
+        ? "CafeOrCoffeeShop"
+        : "Restaurant",
       name: nama,
       description: deskripsi,
       image: gambar,
       url: url,
-      servesCuisine: "Masakan Indonesia",
-      priceRange: "Rp 5.000 - Rp 95.000",
+      servesCuisine: CFG.kategoriBisnis || "Kedai Kopi",
+      priceRange: CFG.rentangHarga || "",
+      currenciesAccepted: "IDR",
+      paymentAccepted: CFG.metodeBayar || "Tunai, QRIS",
       telephone: CFG.telepon || undefined,
       address: {
         "@type": "PostalAddress",
         streetAddress: CFG.alamatLengkap || CFG.alamat || "",
+        addressLocality: CFG.kota || "Cianjur",
+        addressRegion: CFG.provinsi || "Jawa Barat",
         addressCountry: "ID",
       },
+      hasMap: CFG.mapsLink || undefined,
+      sameAs: Object.values(CFG.sosmed || {}).filter(Boolean),
       acceptsReservations: "True",
-      openingHoursSpecification: [
-        {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          opens: jamIso(jb.senin_jumat, 0),
-          closes: jamIso(jb.senin_jumat, 1),
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: ["Saturday", "Sunday"],
-          opens: jamIso(jb.sabtu_minggu, 0),
-          closes: jamIso(jb.sabtu_minggu, 1),
-        },
-      ],
+      /* Buka nonstop 24 jam -> satu blok untuk semua hari */
+      openingHoursSpecification: buka24Jam()
+        ? [
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ],
+              opens: "00:00",
+              closes: "23:59",
+            },
+          ]
+        : [
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+              ],
+              opens: jamIso(jb.senin_jumat, 0),
+              closes: jamIso(jb.senin_jumat, 1),
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: ["Saturday", "Sunday"],
+              opens: jamIso(jb.sabtu_minggu, 0),
+              closes: jamIso(jb.sabtu_minggu, 1),
+            },
+          ],
       potentialAction: {
         target: {
           "@type": "EntryPoint",
@@ -3135,6 +3367,30 @@
         },
       },
     };
+
+    if (Number.isFinite(rating) && rating > 0) {
+      const ulas = Number(CFG.jumlahUlasan || 0);
+      if (ulas > 0) {
+        schema.aggregateRating = {
+          "@type": "AggregateRating",
+          ratingValue: rating.toFixed(1),
+          reviewCount: ulas,
+          bestRating: "5",
+          worstRating: "1",
+        };
+      }
+    }
+
+    const daftarFasilitas = (CFG.fasilitas || []).slice(0, 6);
+    if (daftarFasilitas.length) {
+      schema.amenityFeature = daftarFasilitas.map(function (f) {
+        return {
+          "@type": "LocationFeatureSpecification",
+          name: f,
+          value: true,
+        };
+      });
+    }
 
     const ld = $("jsonld-restaurant");
     if (ld) ld.textContent = JSON.stringify(schema, null, 2);

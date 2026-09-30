@@ -1,17 +1,23 @@
-# Katalog Menu Warung — Source Code Lengkap
+# WARKAP (Warkop by diatap) CIANJUR — Katalog Menu
 
 Website katalog menu untuk warung makan, kedai kopi, atau rumah makan yang
 ingin pesanan masuk lewat **WhatsApp** tanpa perlu aplikasi, database, atau
 biaya bulanan.
 
+Versi ini sudah diisi data asli **WARKAP CIANJUR**: 62 menu, 9 kategori,
+buka nonstop 24 jam, rating 4,5 dari 556 ulasan.
+
 Sudah termasuk:
 
-- 20 menu demo siap ganti
+- 62 menu WARKAP siap pakai (bisa diganti lewat `config.js`)
+- Jam buka nonstop 24 jam + badge "Tanya Harga" untuk menu yang harganya
+  belum dipublikasikan
 - Dark mode (terang/gelap)
 - Panel Pemilik untuk ubah menu, unggah foto, dan unduh project
 - Pesan WhatsApp otomatis yang sudah rapi
 - Bisa dipasang di HP seperti aplikasi (PWA)
-- SEO + schema.org agar mudah ditemukan di Google
+- SEO + schema.org (`CafeOrCoffeeShop` + `aggregateRating`) agar mudah
+  ditemukan di Google
 
 ---
 
@@ -72,12 +78,15 @@ Buka `config.js`, lalu ubah bagian ini:
 
 ```js
 const config = {
-  namaWarung: "Warung Makan Bu Sari",   // ← nama warung
-  tagline: "Dapur rumahan, harga warung",// ← tagline
-  whatsapp: "6281234567890",             // ← WAJIB diganti
-  telepon: "021-3899-1234",              // ← nomor telepon
-  alamat: "Jl. Merdeka No. 10, Jakarta",// ← alamat
+  namaWarung: "WARKAP (Warkop by diatap) CIANJUR", // ← nama warung
+  tagline: "Warkop by diatap - view sawah, buka 24 jam", // ← tagline
+  whatsapp: "6281234567890",                       // ← WAJIB diganti
+  telepon: "081234567890",                         // ← nomor telepon
+  alamat: "Jl. Gatot Mangkupraja No.1, Nagrak, Cianjur",
   jamBuka: {
+    buka24Jam: true,          // ← WARKAP buka nonstop
+    label24Jam: "Buka 24 jam, setiap hari",
+    // dipakai hanya kalau buka24Jam: false
     senin_jumat: "08:00-21:00",
     sabtu_minggu: "09:00-22:00",
   },
@@ -90,8 +99,10 @@ const config = {
 | Isian | Aturan |
 | --- | --- |
 | `whatsapp` | Format `628xxx` — **tanpa** `+`, **tanpa** spasi, **tanpa** tanda hubung |
+| `jamBuka.buka24Jam` | `true` = nonstop 24 jam, field jam per hari diabaikan |
 | `jamBuka` | Format 24 jam `HH:MM-HH:MM` |
 | `harga` | Angka saja, **tanpa** titik atau koma: `15000` (bukan `15.000`) |
+| `harga: 0` | Artinya "Tanya Harga": tampil tanpa angka, tombol pesan dimatikan |
 | `foto` | URL `https://...` atau path lokal `images/menu/nama.jpg` |
 
 Path foto lokal boleh ditulis relatif (`images/menu/nama.jpg`, **disarankan**)

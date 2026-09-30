@@ -1,559 +1,1192 @@
 /* ==========================================================================
    CONFIG.JS - SATU-SATUNYA FILE YANG PERLU DIEDIT PEMILIK WARUNG
    ==========================================================================
-   Ganti semua nilai di bawah ini, lalu save. Selesai. Tidak perlu edit
-   file lain (index.html / script.js / styles.css) sama sekali.
 
-   CARA PAKAI:
-   1. Ganti namaWarung, tagline, whatsapp  -> syarat utama, wajib.
-   2. Ganti jamBuka  -> status BUKA/TUTUP di website jadi otomatis.
-   3. Ganti isi array "menu"  -> katalogmu.
-   4. Upload foto ke folder /images/ lalu tulis path-nya di field "foto".
+   >> BACA DULU SEBELUM EDIT <<
 
-   PENTING:
-   - Format whatsapp HARUS "628xxx" (kode negara + nomor, TANPA "+", TANPA spasi).
-     Contoh benar  : "6281234567890"
-     Contoh salah  : "+62 812-3456-7890"
-   - "jamBuka" memakai format 24 jam "HH:MM-HH:MM".
-     Kalau buka sampai tengah malam, tulis jam awal lebih besar dari jam
-     akhir, contoh "17:00-02:00".
-    - Foto boleh diisi URL internet (https://...) ATAU path lokal
-      ("images/menu/xxx.jpg"). Path relatif ikut folder website, jadi aman
-      di hosting root maupun sub-folder.
-   - Kalau file foto tidak ditemukan, website otomatis pakai gambar
-     cadangan bertema kuning. Jadi tidak akan pernah tampil kotak kosong.
+   File ini berisi SELURUH isi website: nama, alamat, jam buka, menu, harga,
+   foto, sampai warna aksen semuanya ada di sini.
+
+   CARA PAKAI
+   1. Ganti nilai di dalam tanda kutip "..." dengan data warung Anda.
+   2. Nomor WhatsApp: format "628xxx", tanpa "+", tanpa spasi.
+   3. Harga: angka saja. Tulis 15000, bukan 15.000.
+   4. Setelah selesai, klik "Unduh config.js" di Panel Pemilik, lalu upload
+      file itu ke hosting supaya perubahannya permanen.
+
+   ATURAN WAJIB
+   - whatsapp  : "628xxx" (kode negara + nomor). Benar: "6281234567890".
+                 Salah: "+62 812-3456-7890".
+   - jamBuka   : format 24 jam "HH:MM-HH:MM". Untuk buka nonstop, set
+                 buka24Jam: true (lihat bagian jamBuka).
+   - foto      : URL "https://..." atau path lokal "images/menu/x.jpg".
+                 Path relatif ikut folder website, jadi aman di hosting root
+                 maupun sub-folder GitHub Pages.
+   - harga: 0  : harga belum dipublikasikan. Item tampil dengan label
+                 "Tanya Harga" dan tidak bisa masuk keranjang.
+   - Kalau file foto tidak ditemukan, website otomatis pakai gambar cadangan
+     bertema kuning, jadi tidak akan pernah tampil kotak kosong.
    ========================================================================== */
 
 const config = {
   /* ----------------------------------------------------------------------
      IDENTITAS WARUNG
      ---------------------------------------------------------------------- */
-  namaWarung: "Warung Makan Bu Sari",
-  tagline: "Masakan Rumahan Rasa Juara",
+  namaWarung: "WARKAP (Warkop by diatap) CIANJUR",
+  namaPendek: "WARKAP Cianjur",
+  kategoriBisnis: "Kedai Kopi",
+  tagline: "Warkop by diatap - view sawah, buka 24 jam",
   deskripsiSingkat:
-    "Warung rumahan legendaris sejak 2005. Nasi goreng, sate, soto, dan Aneka hidangan lain yang dimasak dengan resep keluarga. Digoreng segar, dikirim hangat ke depan pintu Anda.",
+    "Kedai kopi 24 jam di Nagrak, Cianjur. Area outdoor dengan pemandangan persawahan, suasana sejuk dan tenang, harga warung Rp 25.000-50.000 per orang. Cocok buat nongkrong, belajar, kerja dengan laptop, sampai live music.",
+
+  /* Badge di header: rating, jumlah ulasan, rentang harga.
+     Kosongkan field ini kalau tidak ingin menampilkannya. */
+  rating: 4.5,
+  jumlahUlasan: 556,
+  rentangHarga: "Rp25.000 - Rp50.000 / orang",
+
+  /* Warna aksen: warkap (kuning-amber) | teal | terracotta | ungu | forests */
+  temaWarna: "warkap",
 
   // Logo: foto bulat. Ganti ke "images/logo.png" setelah upload.
-  logo: "https://images.unsplash.com/photo-1595273670150-bd0c3c392e46?auto=format&fit=crop&w=200&h=200&q=80",
+  logo:
+    "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=200&h=200&q=80",
 
   // Foto banner hero. Rasio ideal: lebar (1600 x 900).
-  banner: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1600&h=900&q=80",
+  banner:
+    "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1600&h=900&q=80",
 
   /* ----------------------------------------------------------------------
-     KONTAK
+     KONTAK - GANTI NOMOR WHATSAPP DAN TELEPON (masih placeholder)
      ---------------------------------------------------------------------- */
-  whatsapp: "6281234567890", // format internasional tanpa "+"  (WAJIB)
-  telepon: "081234567890", // nomor tampilan, boleh ada "0" / spasi / tanda hubung
+  whatsapp: "6281234567890",
+  telepon: "081234567890",
 
-  alamat: "Jl. Merdeka No. 123, Jakarta",
+  alamat: "Jl. Gatot Mangkupraja No.1, Nagrak, Cianjur",
   alamatLengkap:
-    "Jl. Merdeka No. 123, Kelurahan Sukamaju, Jakarta Timur, DKI Jakarta 13520",
+    "Jl. Gatot Mangkupraja No.1, Nagrak, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43215",
+  plusCode: "54F6+RV Nagrak, Kabupaten Cianjur, Jawa Barat",
 
-  // Tempel URL embed Google Maps:
-  // Buka Google Maps -> lokasi warung -> Share -> Embed a map -> salin yang
-  // berawalan "src="
+  // Cara dapat URL embed: Google Maps -> lokasi -> Share -> Embed a map ->
+  // salin yang berawalan "src=".
   mapsEmbed:
-    "https://www.google.com/maps?q=Merdeka+Street+Jakarta&output=embed",
+    "https://www.google.com/maps?q=WARKAP+Warkop+by+diatap+Cianjur&output=embed",
 
-  // Link Google Maps untuk tombol "Petunjuk Arah" (membuka aplikasi peta).
+  // Tombol "Petunjuk Arah" (membuka aplikasi peta di HP).
   mapsLink:
-    "https://www.google.com/maps/search/?api=1&query=Merdeka+Street+Jakarta",
+    "https://www.google.com/maps/search/?api=1&query=WARKAP+Warkop+by+diatap+Jl.+Gatot+Mangkupraja+Cianjur",
 
   /* ----------------------------------------------------------------------
-     JAM BUKA  ->  website otomatis deteksi status BUKA / TUTUP
-     Isi dengan format "HH:MM-HH:MM" (24 jam).
-     "0" = Minggu, "6" = Sabtu.
+     JAM BUKA - website otomatis deteksi status BUKA / TUTUP
+     WARKAP buka nonstop, jadi buka24Jam: true.
      ---------------------------------------------------------------------- */
   jamBuka: {
+    buka24Jam: true,
+    label24Jam: "Buka 24 jam, setiap hari",
+    // dipakai hanya kalau buka24Jam: false
     senin_jumat: "08:00-21:00",
     sabtu_minggu: "09:00-22:00",
-    // Opsional: daftar hari tutup. Contoh: [0] = tutup setiap Minggu.
-    // Isi [] atau hapus baris ini kalau buka semua hari.
+    // Daftar hari tutup. Contoh: [0] = tutup setiap Minggu.
     hariTutup: [],
   },
 
   /* ----------------------------------------------------------------------
-     SOSIAL MEDIA  (boleh dikosongkan dengan "")
+     FASILITAS - tampil sebagai chip di bawah hero. Boleh dikosongkan [].
+     ---------------------------------------------------------------------- */
+  fasilitas: [
+    "Dine-in",
+    "Takeaway",
+    "Outdoor / Open-air",
+    "Table service",
+    "Toilet",
+    "Parkir gratis",
+    "Area parkir luas",
+    "Bayar mobile / NFC",
+    "Cocok anak-anak",
+    "Cocok rombongan",
+    "Cocok pelajar",
+    "Cocok wisatawan",
+    "Bisa kerja / laptop",
+    "Live music",
+    "View sawah",
+    "Suasana sejuk",
+  ],
+
+  /* ----------------------------------------------------------------------
+     SOSIAL MEDIA - boleh dikosongkan dengan ""
      ---------------------------------------------------------------------- */
   sosmed: {
-    instagram: "https://instagram.com/warungbusari",
-    tiktok: "https://tiktok.com/@warungbusari",
-    facebook: "https://facebook.com/warungbusari",
+    instagram: "https://www.instagram.com/warkap.24jam/",
+    tiktok: "",
+    facebook: "",
   },
 
   /* ----------------------------------------------------------------------
-     PEMBAYARAN  (opsional)
-     Kalau tidak ada rekening DAN QRIS kosong, blok ini otomatis
-     disembunyikan dari keranjang.
+     PEMBAYARAN (opsional)
+     Kalau rekening kosong DAN QRIS kosong, blok ini disembunyikan otomatis.
      Isi "qris" dengan "images/qris.png" setelah upload.
      ---------------------------------------------------------------------- */
   rekening: {
-    bank: "BCA",
-    nomor: "1234567890",
-    atasNama: "Sari Wijaya",
+    bank: "",
+    nomor: "",
+    atasNama: "",
     qris: "",
-    catatan: "Transfer sebelum konfirmasi ya kak, biar pesan tidak menunggu terlalu lama.",
+    catatan: "",
   },
 
   /* ----------------------------------------------------------------------
-     PENGATURAN PENGIRIMAN  (opsional)
-     gratisDiatas: 0 berarti tidak ada aturan gratis ongkir.
-     minOrder: 0 berarti tidak ada minimal order.
+     PENGIRIMAN (opsional)
+     gratisDiatas: 0 = tidak ada aturan gratis ongkir.
+     minOrder: 0 = tidak ada minimal order.
      ---------------------------------------------------------------------- */
   ongkir: {
-    aktif: true,
+    aktif: false,
     jenis: "Flat",
-    nominal: 5000,
-    gratisDiatas: 50000,
-    area: "sekitar 5 km",
-    catatan: "Minimal order Rp 10.000",
-    minOrder: 10000,
+    nominal: 0,
+    gratisDiatas: 0,
+    area: "",
+    catatan: "",
+    minOrder: 0,
   },
 
   /* ----------------------------------------------------------------------
-     TESTIMONI PELANGGAN
-     rating: 1 sampai 5, boleh desimal (contoh 4.5)
+     TESTIMONI - rating 1 sampai 5, boleh desimal (contoh 4.5)
+
+     PENTING: ini RINGKASAN ULASAN PUBLIK, bukan kutipan asli. Karena data
+     kutipan verbatim belum tersedia, field "nama" sengaja diisi label
+     ringkasan supaya tidak terlihat seperti nama pelanggan sungguhan.
+     Keluhan juga ditampilkan supaya tidak cuma pujian.
+
+     Ganti dengan kutipan asli + nama pelanggan kalau sudah ada.
      ---------------------------------------------------------------------- */
   testimoni: [
     {
-      nama: "Budi Santoso",
+      nama: "Ringkasan ulasan: suasana",
       pesan:
-        "Nasi gorengnya juara! Pedasnya pas, porsinya besar. Sudah langganan tiap minggu.",
+        "View sawah dan area outdoor jadi yang paling sering disebut menonjol. Suasana adem dan tenang, enak buat kerja atau tugas.",
       rating: 5,
     },
     {
-      nama: "Ani Rahmawati",
+      nama: "Ringkasan ulasan: lokasi & parkir",
       pesan:
-        "Cepat, murah, enak. Sate ayamnya juicy. Sangat recommended buat malam santai.",
-      rating: 5,
+        "Lapangan luas, parkir gratis, dan lokasi mudah dijangkau. Cocok buat rombongan yang ngobrol lama karena nggak terlalu padat.",
+      rating: 4,
     },
     {
-      nama: "Dewi Lestari",
+      nama: "Ringkasan ulasan: buat nugas",
       pesan:
-        "Kopi susu gula arennya creamy banget. Suasana warungnya adem dan bersih.",
-      rating: 4.5,
+        "Sering dipakai buat membawa laptop dan mengerjakan tugas. Area outdoor dan kursi yang lega jadi nilai plus.",
+      rating: 4,
     },
     {
-      nama: "Rizky Pratama",
+      nama: "Ringkasan ulasan: harga",
       pesan:
-        "Pesan delivery jam 10 malam tetap panas. Suka banget karena bisa request level pedas.",
-      rating: 5,
+        "Harga disebut terjangkau untuk Cianjur. Porsi Chicken Bowl Rp 18.000 disebut cukup besar.",
+      rating: 4,
     },
     {
-      nama: "Maya Sari",
+      nama: "Ringkasan ulasan: live music",
       pesan:
-        "Paket hematnya paling worth it. Nasi, ayam, sayur, semua lengkap dengan harga murah.",
-      rating: 4.5,
+        "Live music lokal jadi nilai tambah buat nongkrong sore. Keluhan yang muncul: saat ramai, antrean makanan kadang agak lama.",
+      rating: 4,
+    },
+    {
+      nama: "Ringkasan ulasan: rasa",
+      pesan:
+        "Menu dinilai luas untuk harganya. Keluhan yang muncul: rasa mie kadang berubah-ubah, sebagian pelanggan merasa ada yang kurang gurih atau terlalu berminyak.",
+      rating: 3,
     },
   ],
 
   /* ----------------------------------------------------------------------
-     PERTANYAAN YANG SERING MUNCUL
+     FAQ
      ---------------------------------------------------------------------- */
   faq: [
     {
-      tanya: "Bisa delivery?",
+      tanya: "Apakah buka 24 jam?",
       jawab:
-        "Bisa. Area sekitar 5 km, ongkir flat Rp 5.000 dan gratis ongkir untuk belanja di atas Rp 50.000.",
+        "Ya, WARKAP buka 24 jam setiap hari termasuk hari libur. Status buka selalu hijau di bagian atas halaman ini. Kalau ada hari tertentu yang tutup, statusnya berubah otomatis.",
     },
     {
-      tanya: "Jam buka warung apa saja?",
+      tanya: "Harga untuk satu orang berapa?",
       jawab:
-        "Senin-Jumat 08.00-21.00 dan Sabtu-Minggu 09.00-22.00. Status buka/tutup muncul otomatis di bagian atas halaman ini.",
+        "Secara keseluruhan rentangnya Rp 25.000 sampai Rp 50.000 per orang. Makanan dan snack mulai dari Rp 5.000 (nasi, telur, kornet), roti bakar Rp 14.000-17.000, Chicken Bowl Rp 18.000-20.000. Daftar lengkap ada di katalog.",
     },
     {
-      tanya: "Apakah makanannya halal?",
+      tanya: "Suasana WARKAP seperti apa?",
       jawab:
-        "Ya. Semua ayam dan daging kami beli dari poultry bersertifikat halal. Tidak ada daging babi di seluruh menu kami.",
+        "Area outdoor dan open-air dengan pemandangan persawahan, terasa sejuk dan teduh. Cocok buat nongkrong, belajar, bekerja memakai laptop, sampai ada live music di sore hari.",
     },
     {
-      tanya: "Bisa pesan banyak sekaligus (catering)?",
+      tanya: "Fasilitas apa saja yang tersedia?",
       jawab:
-        "Bisa. Untuk pesanan di atas 50 porsi, hubungi WhatsApp kami minimal H-1 supaya bahannya selalu siap.",
+        "Dine-in, takeaway, table service, toilet, parkir gratis di jalan dengan area parkir luas, pembayaran mobile atau NFC, dan tempatnya aman untuk anak-anak maupun rombongan.",
     },
     {
-      tanya: "Bisa request level pedas dan catatan khusus?",
+      tanya: "Bisa pesan delivery atau takeaway?",
       jawab:
-        'Bisa. Di halaman pemesanan tersedia pilihan level pedas (Level 0 sampai Level 3), pilihan topping, dan kolom catatan khusus, misalnya "tanpa bawang" atau "ekstra sambal".',
+        "Ambil di tempat (takeaway) dan dine-in selalu bisa karena tempatnya buka nonstop. Untuk delivery, tanya langsung ke kasir lewat WhatsApp karena area pengantar belum kami tetapkan di website ini.",
     },
     {
-      tanya: "Metode pembayaran apa saja yang diterima?",
+      tanya: "Lokasinya mudah ditemukan?",
       jawab:
-        "Tunai, transfer bank, dan QRIS. Pembayaran dilakukan setelah konfirmasi pesanan dari kami melalui WhatsApp.",
+        "Sangat strategis, di Cianjur. Plus Code-nya 54F6+RV Nagrak, Kabupaten Cianjur, Jawa Barat. Klik tombol Petunjuk Arah di halaman ini untuk langsung membuka peta.",
+    },
+    {
+      tanya: "Kenapa ada menu yang tulisannya Tanya Harga?",
+      jawab:
+        "Beberapa minuman seperti Kopi Kapal Api, Kopi Liong, Good Day, dan Nutrisari belum tercantum harga resmi di sumber. Kami tidak asal menebak. Silakan tanya langsung ke kasir atau lewat WhatsApp, nanti dikasih tahu harga terbaru.",
     },
   ],
 
   /* ----------------------------------------------------------------------
-     GALERI SUASANA WARUNG
-     Ganti dengan foto asli warungmu: "images/galeri/1.jpg" dan seterusnya.
+     GALERI - ganti dengan foto asli: "images/galeri/1.jpg" dan seterusnya.
      ---------------------------------------------------------------------- */
   galeri: [
     {
-      foto: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
-      judul: "Area indoor",
+      foto:
+        "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=800&q=80",
+      judul: "View sawah dari area outdoor",
     },
     {
-      foto: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80",
-      judul: "Meja tamu",
+      foto:
+        "https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=800&q=80",
+      judul: "Sudut duduk warkop",
     },
     {
-      foto: "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=800&q=80",
-      judul: "Dapur terbuka",
+      foto:
+        "https://images.unsplash.com/photo-1501339847302-ac426a4a7c0b?auto=format&fit=crop&w=800&q=80",
+      judul: "Meja buat yang kerja",
     },
     {
-      foto: "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=800&q=80",
-      judul: "Sudut duduk",
+      foto:
+        "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80",
+      judul: "Suasana sore yang tenang",
     },
     {
-      foto: "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=800&q=80",
-      judul: "Meja kayu",
+      foto:
+        "https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=800&q=80",
+      judul: "Tempat duduk berdua",
     },
     {
-      foto: "https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=800&q=80",
-      judul: "Suasana hangat",
+      foto:
+        "https://images.unsplash.com/photo-1559305616-3f99cd43e353?auto=format&fit=crop&w=800&q=80",
+      judul: "Suasana live music",
     },
     {
-      foto: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80",
-      judul: "Tempat duduk bersama",
+      foto:
+        "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80",
+      judul: "Area outdoor terbuka",
     },
     {
-      foto: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
-      judul: "Menu signature",
+      foto:
+        "https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&w=800&q=80",
+      judul: "Tempat nongkrong sore",
     },
   ],
 
   /* ----------------------------------------------------------------------
-     KATALOG MENU
+     KATALOG MENU - WARKAP (Warkop by diatap) Cianjur
      ----------------------------------------------------------------------
      ATURAN PENTING:
-     - id        : nomor unik, WAJIB berbeda tiap item. Jangan dipakai ulang.
-     - kategori  : bebas, tapi pakai nama yang sama secara konsisten.
-                  Kategori baru otomatis muncul sebagai tab filter.
-     - harga     : ANGKA SAJA (tanpa "Rp", tanpa titik pemisah). Contoh: 25000
-     - foto      : URL "https://..." atau path lokal "images/menu/xxx.jpg"
-     - badge     : "Best Seller" | "Baru" | "Promo" | null  (boleh null)
-     - tersedia  : false = tampil sebagai "HABIS" dan tidak bisa dipesan
-     - varian    : bagian opsional. Bisa berisi:
-                      * levelPedas : array pilihan TUNGGAL (radio)
-                      * ukuran     : array pilihan TUNGGAL (radio)
-                      * topping    : array { nama, harga }  (boleh pilih >1)
-                      * opsi       : array { nama, harga }  (boleh pilih >1)
-                   Kalau kosong semua (varian: {}) tidak tampil pilihan apa pun.
+     - id       : nomor unik, WAJIB berbeda tiap item.
+     - kategori : pakai nama yang sama secara konsisten. Kategori baru
+                  otomatis muncul sebagai tab filter.
+     - harga    : ANGKA SAJA tanpa "Rp" dan tanpa titik. Contoh: 15000
+     - foto     : URL "https://..." atau path lokal "images/menu/x.jpg"
+     - badge    : "Best Seller" | "Baru" | "Promo" | null (boleh null)
+     - tersedia : false = tampil sebagai "HABIS" dan tidak bisa dipesan
+     - varian   : opsional, bisa berisi
+                     levelPedas : array (radio, pilih 1)
+                     topping    : array { nama, harga } (boleh pilih >1)
+                     saos/suhu/gula : array (radio, pilih 1)
+                  Kalau kosong ({}) tidak tampil pilihan apa pun.
+     - harga 0  : harga belum dipublikasikan. Tampil "Tanya Harga" dan
+                  tidak bisa dimasukkan ke keranjang.
      ---------------------------------------------------------------------- */
   menu: [
-    /* ======================= MAKANAN ======================= */
+    /* ===================== SNACK ===================== */
     {
       id: 1,
-      kategori: "Makanan",
-      nama: "Nasi Goreng Spesial",
-      harga: 25000,
-      foto: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Nasi goreng dengan telur, ayam suwir, dan kerupuk. Digoreng segar di dapuri.",
-      badge: "Best Seller",
+      kategori: "Snack",
+      nama: "Omelette",
+      harga: 11000,
+      foto:
+        "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Telur dadar isi keju, dipanggang. Cocok buat nemanin ngopi.",
+      badge: null,
       tersedia: true,
       varian: {
-        levelPedas: ["Level 0", "Level 1", "Level 2", "Level 3"],
         topping: [
-          { nama: "Telur Ceplok", harga: 5000 },
-          { nama: "Ayam Tambahan", harga: 8000 },
-          { nama: "Kerupuk Udang", harga: 4000 },
+          { nama: "Extra telur", harga: 3000 },
+          { nama: "Keju ekstra", harga: 3000 },
+          { nama: "Sosis", harga: 4000 },
         ],
       },
     },
     {
       id: 2,
-      kategori: "Makanan",
-      nama: "Mie Goreng Jawa",
-      harga: 22000,
-      foto: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Mie goreng khas Jawa dengan sayur, ayam, dan telur. Bumbu manis dan gurih.",
-      badge: null,
+      kategori: "Snack",
+      nama: "Tahu Cabe Garam",
+      harga: 13000,
+      foto:
+        "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Tahu goreng dengan cabe garam dan daun kari. Pedasnya nendang.",
+      badge: "Best Seller",
       tersedia: true,
       varian: {
-        levelPedas: ["Level 0", "Level 1", "Level 2"],
-        ukuran: ["Regular", "Jumbo"],
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
       },
     },
     {
       id: 3,
-      kategori: "Makanan",
-      nama: "Ayam Bakar Madu",
-      harga: 28000,
-      foto: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Ayam bakar dengan olesan madu, dibakar arang. Dilayani dengan lalapan dan sambal.",
-      badge: "Best Seller",
+      kategori: "Snack",
+      nama: "Kentang Chips",
+      harga: 13000,
+      foto:
+        "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Kentang goreng tipis dengan sedikit garam. Renyahnya nggak pelit.",
+      badge: null,
       tersedia: true,
-      varian: {
-        topping: [
-          { nama: "Nasi Putih", harga: 5000 },
-          { nama: "Lalapan Ekstra", harga: 6000 },
-        ],
-      },
+      varian: {},
     },
     {
       id: 4,
-      kategori: "Makanan",
-      nama: "Sate Ayam 10 Tusuk",
-      harga: 30000,
-      foto: "https://images.unsplash.com/photo-1529563021893-cc83c992d75d?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Sate ayam khas Jawa dengan bumbu kacang atau kecap. Bakar langsung di atas arang.",
+      kategori: "Snack",
+      nama: "Cireng",
+      harga: 14000,
+      foto:
+        "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Cireng kriuk renyah di luar, kenyal di dalam. Enak buat sharing.",
       badge: null,
       tersedia: true,
       varian: {
-        opsi: [
-          { nama: "Bumbu Kacang", harga: 0 },
-          { nama: "Bumbu Kecap", harga: 0 },
-        ],
-        levelPedas: ["Level 0", "Level 1", "Level 2", "Level 3"],
+        levelPedas: ["Original", "Rujak", "Ayam Bawang"],
       },
     },
     {
       id: 5,
-      kategori: "Makanan",
-      nama: "Rendang Daging",
-      harga: 45000,
-      foto: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Rendang sapi premium dengan santan dan rempah, dimasak lambat 5 jam.",
-      badge: "Baru",
+      kategori: "Snack",
+      nama: "Singkong Kriuk",
+      harga: 14000,
+      foto:
+        "https://images.unsplash.com/photo-1621447504864-d8686e12698c?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Singkong goreng kriuk yang tipis dan garing. Cocok buat sore santai.",
+      badge: null,
       tersedia: true,
-      varian: {
-        topping: [
-          { nama: "Nasi Putih", harga: 5000 },
-          { nama: "Nasi Goreng", harga: 10000 },
-        ],
-      },
+      varian: {},
     },
     {
       id: 6,
-      kategori: "Makanan",
-      nama: "Ayam Goreng Crispy",
-      harga: 26000,
-      foto: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=800&q=80",
-      deskripsi: "Ayam goreng dengan lapisan renyah, dagingnya tetap juicy di dalam.",
+      kategori: "Snack",
+      nama: "Kentang Goreng",
+      harga: 14000,
+      foto:
+        "https://images.unsplash.com/photo-1573080496988-b0c1a2d0d3a8?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Kentang goreng baton dengan mayo atau keju cair.",
       badge: null,
       tersedia: true,
       varian: {
-        levelPedas: ["Tidak Pedas", "Sambal Bawang", "Extra Pedas"],
-        ukuran: ["1 Potong", "2 Potong", "1/2 Ekor"],
+        topping: [
+          { nama: "Extra kentang", harga: 5000 },
+          { nama: "Keju sauce", harga: 2000 },
+        ],
       },
     },
     {
       id: 7,
-      kategori: "Makanan",
-      nama: "Soto Ayam Lamongan",
-      harga: 24000,
-      foto: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Soto ayam kuah bening gurih dengan koya, seledri, dan CDL. Hangat di badan.",
+      kategori: "Snack",
+      nama: "Onion Ring",
+      harga: 16000,
+      foto:
+        "https://images.unsplash.com/photo-1639024471283-03518883c2b8?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Cincin bawang goreng bertabur garam, renyah dan gurih.",
       badge: null,
       tersedia: true,
       varian: {
-        ukuran: ["Regular", "Jumbo"],
-        topping: [
-          { nama: "Perbesar Kuah", harga: 0 },
-          { nama: "Ayam Ekstra", harga: 8000 },
-        ],
+        saos: ["Original", "BBQ", "Balado"],
       },
     },
-
-    /* ======================= MINUMAN ======================= */
     {
       id: 8,
-      kategori: "Minuman",
-      nama: "Es Teh Manis",
-      harga: 5000,
-      foto: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80",
-      deskripsi: "Teh manis dingin segar. Pelengkap wajib setiap makan.",
-      badge: null,
+      kategori: "Snack",
+      nama: "Kids Platter",
+      harga: 16000,
+      foto:
+        "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Aneka snack ukuran kecil buat anak: kentang goreng, chicken, dan minuman.",
+      badge: "Cocok Anak",
       tersedia: true,
-      varian: {
-        ukuran: ["Regular", "Jumbo"],
-        levelPedas: ["Gula Normal", "Gula Sedikit", "Nol Gula"],
-      },
+      varian: {},
     },
     {
       id: 9,
-      kategori: "Minuman",
-      nama: "Es Jeruk Peras",
-      harga: 12000,
-      foto: "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=800&q=80",
-      deskripsi: "Jeruk peras asli diperas langsung, dingin dan kaya vitamin C.",
-      badge: "Baru",
+      kategori: "Snack",
+      nama: "Platter Warkap",
+      harga: 16000,
+      foto:
+        "https://images.unsplash.com/photo-1562967916-eb82221dfb92?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Paket campur snack favorit: cireng, kentang, tahu, dan dimsum.",
+      badge: "Paket Hemat",
       tersedia: true,
-      varian: {
-        ukuran: ["Regular", "Jumbo"],
-      },
+      varian: {},
     },
+
+    /* ===================== DESSERT ===================== */
     {
       id: 10,
-      kategori: "Minuman",
-      nama: "Kopi Susu Gula Aren",
-      harga: 18000,
-      foto: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Kopi susu dengan pemanis gula aren homemade. Kental dan creamy.",
+      kategori: "Dessert",
+      nama: "Pisang Goreng Warkap",
+      harga: 13000,
+      foto:
+        "https://images.unsplash.com/photo-1573246123716-6b1782bfc499?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Pisang goreng dengan lapisan tipis, masih hangat dan legit.",
       badge: "Best Seller",
       tersedia: true,
       varian: {
-        ukuran: ["Hot", "Iced"],
-        levelPedas: ["Gula Aren", "Less Sugar", "Oat Milk"],
+        topping: [
+          { nama: "Es krim", harga: 4000 },
+          { nama: "Susu kental manis", harga: 2000 },
+        ],
       },
     },
     {
       id: 11,
-      kategori: "Minuman",
-      nama: "Jus Alpukat",
-      harga: 20000,
-      foto: "https://images.unsplash.com/photo-1622484212850-eb596d769edc?auto=format&fit=crop&w=800&q=80",
-      deskripsi: "Jus alpukat kental dengan susu dan cokelat. Cocok saat siang bolong.",
-      badge: null,
-      tersedia: true,
-      varian: {
-        ukuran: ["Regular", "Jumbo"],
-      },
-    },
-    {
-      id: 12,
-      kategori: "Minuman",
-      nama: "Es Kelapa Muda",
-      harga: 15000,
-      foto: "https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=800&q=80",
-      deskripsi: "Kelapa muda langsung dari pohon, es kelapa muda, larutan gula merah.",
-      badge: null,
-      tersedia: true,
-      varian: {
-        ukuran: ["1 buah", "1 buah + Nata de Coco"],
-      },
-    },
-
-    /* ======================= SNACK ======================= */
-    {
-      id: 13,
-      kategori: "Snack",
-      nama: "Pisang Goreng Cokelat",
+      kategori: "Dessert",
+      nama: "Pisang Comot",
       harga: 14000,
-      foto: "https://images.unsplash.com/photo-1587241321921-91a834d6d191?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Pisang goreng dengan olesan cokelat dan keju. Manis legit favorit anak-anak.",
+      foto:
+        "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Pisang goreng comot berlapis gula melimpah dan wangi pandan.",
       badge: null,
       tersedia: true,
       varian: {
         topping: [
-          { nama: "Extra Cokelat", harga: 3000 },
-          { nama: "Keju Susu", harga: 4000 },
+          { nama: "Es krim", harga: 4000 },
+          { nama: "Kental manis", harga: 2000 },
         ],
       },
     },
     {
-      id: 14,
-      kategori: "Snack",
-      nama: "Tahu Crispy",
-      harga: 12000,
-      foto: "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Tahu goreng crispy dengan saus Original dan Sambal Bawang. Renyah di luar.",
+      id: 12,
+      kategori: "Dessert",
+      nama: "Roti Bakar Coklat",
+      harga: 15000,
+      foto:
+        "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar panggang dengan isian coklat yang melimpah.",
       badge: null,
       tersedia: true,
-      varian: {
-        ukuran: ["5 pcs", "10 pcs"],
-      },
+      varian: {},
+    },
+    {
+      id: 13,
+      kategori: "Dessert",
+      nama: "Roti Bakar Keju",
+      harga: 15000,
+      foto:
+        "https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar dengan keju melimpah yang legit.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 14,
+      kategori: "Dessert",
+      nama: "Roti Bakar Srikaya",
+      harga: 15000,
+      foto:
+        "https://images.unsplash.com/photo-1619535860434-cf9b902a0f14?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar isian srikaya yang manis dengan tekstur lembut.",
+      badge: null,
+      tersedia: true,
+      varian: {},
     },
     {
       id: 15,
-      kategori: "Snack",
-      nama: "Kerupuk Udang",
-      harga: 8000,
-      foto: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
-      deskripsi: "Kerupuk udang besar yang renyah, cocok untuk lauk tambahan.",
+      kategori: "Dessert",
+      nama: "Roti Bakar Matcha",
+      harga: 16000,
+      foto:
+        "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar isian matcha yang sedikit pahit dan wangi.",
       badge: null,
       tersedia: true,
-      varian: {
-        ukuran: ["5 pcs", "10 pcs"],
-      },
+      varian: {},
     },
     {
       id: 16,
-      kategori: "Snack",
-      nama: "Rujak Lengkap",
+      kategori: "Dessert",
+      nama: "Roti Bakar Tiramisu",
       harga: 16000,
-      foto: "https://images.unsplash.com/photo-1580554530778-ca36943938b2?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Rujak Jakarta: lontong, taoge, kolom, wortel, dan kemangi. Bumbu kacang gurih.",
+      foto:
+        "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar tiramisu dengan susu kental dan cokelat.",
       badge: null,
       tersedia: true,
-      varian: {
-        levelPedas: ["Level 0", "Level 1", "Level 2"],
-      },
+      varian: {},
     },
 
-    /* ======================= PAKET ======================= */
+    /* ===================== KETAN ===================== */
     {
       id: 17,
-      kategori: "Paket",
-      nama: "Paket Kombo 1",
-      harga: 28000,
-      foto: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Nasi Goreng Spesial + Es Teh Manis. Hemat Rp 2.000 dibanding pesan terpisah.",
-      badge: "Promo",
+      kategori: "Ketan",
+      nama: "Ketan Hitam Special",
+      harga: 16000,
+      foto:
+        "https://images.unsplash.com/photo-1601303516534-bf0b1eb97f3f?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Ketan hitam kelapa, kental manis, dan wangi pandan.",
+      badge: "Komodo",
       tersedia: true,
-      varian: {
-        levelPedas: ["Level 0", "Level 1", "Level 2", "Level 3"],
-      },
+      varian: {},
     },
     {
       id: 18,
-      kategori: "Paket",
-      nama: "Paket Hemat 2",
-      harga: 38000,
-      foto: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Nasi Putih + Ayam Goreng Crispy + Sayur Asem + Air Mineral. Lengkap untuk makan siang.",
-      badge: "Best Seller",
+      kategori: "Ketan",
+      nama: "Ketan Susu Keju",
+      harga: 13000,
+      foto:
+        "https://images.unsplash.com/photo-1625944230945-1b7dd3b949ab?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Ketan goreng manis dengan taburan keju yang melimpah.",
+      badge: null,
       tersedia: true,
-      varian: {
-        ukuran: ["1 Porsi", "2 Porsi"],
-      },
+      varian: {},
     },
 
-    /* ======================= PROMO ======================= */
+    /* ===================== SNACK SERIES ===================== */
     {
       id: 19,
-      kategori: "Promo",
-      nama: "Nasi Goreng Promo Lunch",
-      harga: 20000,
-      foto: "https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "Menu yang sama dengan Best Seller, khusus jam makan siang. Potongan 20%!",
-      badge: "Promo",
+      kategori: "Snack Series",
+      nama: "Potato Chip",
+      harga: 8000,
+      foto:
+        "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Potato chip tipis dan renyah. Porsi paling ramah diTipsdompet.",
+      badge: "Paling Murah",
       tersedia: true,
-      varian: {
-        levelPedas: ["Level 0", "Level 1", "Level 2"],
-      },
+      varian: {},
     },
     {
       id: 20,
-      kategori: "Promo",
-      nama: "Paket Hemat Keluarga (4 Porsi)",
-      harga: 95000,
-      foto: "https://images.unsplash.com/photo-1594007654729-407eedc4be65?auto=format&fit=crop&w=800&q=80",
-      deskripsi:
-        "4x Nasi Goreng + 4x Ayam Bakar + 4x Es Teh. Cocok untuk makan malam keluarga.",
-      badge: "Promo",
-      // Contoh item HABIS: tampil badge "HABIS" dan tombolnya dinonaktifkan.
-      tersedia: false,
+      kategori: "Snack Series",
+      nama: "Tahu Cabe Garam",
+      harga: 10000,
+      foto:
+        "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Tahu goreng cabe garam dengan porsi hemat buat ngemil.",
+      badge: null,
+      tersedia: true,
       varian: {
-        levelPedas: ["Level 0", "Level 1", "Level 2", "Level 3"],
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
       },
+    },
+    {
+      id: 21,
+      kategori: "Snack Series",
+      nama: "Kentang Goreng",
+      harga: 10000,
+      foto:
+        "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Kentang goreng porsi ekonomis, enak buat ngemil sore.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 22,
+      kategori: "Snack Series",
+      nama: "Bakpao Ayam",
+      harga: 12000,
+      foto:
+        "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Bakpao panggang isi ayam, dibungkus daun sawit.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 23,
+      kategori: "Snack Series",
+      nama: "Onion Ring",
+      harga: 12000,
+      foto:
+        "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Onion ring renyah, versi lebih ringan dari yang ada di menu Snack.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        saos: ["Original", "BBQ", "Balado"],
+      },
+    },
+    {
+      id: 24,
+      kategori: "Snack Series",
+      nama: "Warkap Platter",
+      harga: 15000,
+      foto:
+        "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Plateran lengkap buatarmac bareng teman.",
+      badge: "Paket Hemat",
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 25,
+      kategori: "Snack Series",
+      nama: "Dimsum",
+      harga: 15000,
+      foto:
+        "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Dimsum kukus puan yang hangat dan ringan.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 26,
+      kategori: "Snack Series",
+      nama: "Singkong Goreng",
+      harga: 15000,
+      foto:
+        "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Singkong goreng dengan potongan lebih besar.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 27,
+      kategori: "Snack Series",
+      nama: "Platter Combo",
+      harga: 20000,
+      foto:
+        "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Paket kombinasi beberapa snack. Paling worth it buat rame-rame.",
+      badge: "Best Value",
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 28,
+      kategori: "Snack Series",
+      nama: "Cireng Rujak",
+      harga: 20000,
+      foto:
+        "https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Cireng rujak asam pedas dengan saus rujak khas.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        levelPedas: ["Level 1", "Level 2", "Level 3"],
+      },
+    },
+
+    /* ===================== WOK SERIES ===================== */
+    {
+      id: 29,
+      kategori: "Wok Series",
+      nama: "Nasi Telur Pontianak",
+      harga: 10000,
+      foto:
+        "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Nasi goreng telur khas Pontianak yang gurih.",
+      badge: "Komodo",
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+      },
+    },
+    {
+      id: 30,
+      kategori: "Wok Series",
+      nama: "Nasi Gila",
+      harga: 12000,
+      foto:
+        "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Nasi goreng dengan level pedas tinggi. Namanya bukan candaan.",
+      badge: "Pedas",
+      tersedia: true,
+      varian: {
+        levelPedas: ["Level 1", "Level 2", "Level 3", "Level 4"],
+      },
+    },
+    {
+      id: 31,
+      kategori: "Wok Series",
+      nama: "Nasi Goreng Warkap",
+      harga: 12000,
+      foto:
+        "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Nasi goreng andalan WARKAP dengan racikan bumbu khas.",
+      badge: "Best Seller",
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+        topping: [
+          { nama: "Telur", harga: 3000 },
+          { nama: "Kornet", harga: 5000 },
+          { nama: "Ayam suwir", harga: 6000 },
+        ],
+      },
+    },
+    {
+      id: 32,
+      kategori: "Wok Series",
+      nama: "Mie Bangladesh",
+      harga: 12000,
+      foto:
+        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Mie goreng dengan aroma smoky yang gurih dan sedikit pedas.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+      },
+    },
+    {
+      id: 33,
+      kategori: "Wok Series",
+      nama: "Mie Nyemek",
+      harga: 12000,
+      foto:
+        "https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Mie nyemek khas. Namanya bukan soal harga, porsinya tetap normal.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+      },
+    },
+    {
+      id: 34,
+      kategori: "Wok Series",
+      nama: "Mie Goreng Warkap",
+      harga: 12000,
+      foto:
+        "https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Mie goreng andalan WARKAP dengan saus khas yang gurih.",
+      badge: "Best Seller",
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+        topping: [
+          { nama: "Telur", harga: 3000 },
+          { nama: "Kornet", harga: 5000 },
+        ],
+      },
+    },
+    {
+      id: 35,
+      kategori: "Wok Series",
+      nama: "Kwetiau Special Warkap",
+      harga: 15000,
+      foto:
+        "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Kwetiau dengan campuran seafood dan daging.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+      },
+    },
+    {
+      id: 36,
+      kategori: "Wok Series",
+      nama: "Cuanki Ori",
+      harga: 17000,
+      foto:
+        "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Cuanki original tanpa versioning tambahan.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+      },
+    },
+    {
+      id: 37,
+      kategori: "Wok Series",
+      nama: "Cuanki Special",
+      harga: 20000,
+      foto:
+        "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Cuanki dengan ayam, bakso, dan kuah yang lebih banyak.",
+      badge: "Komodo",
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+        topping: [
+          { nama: "Telur", harga: 3000 },
+          { nama: "Kornet", harga: 5000 },
+        ],
+      },
+    },
+    {
+      id: 38,
+      kategori: "Wok Series",
+      nama: "Nasi",
+      harga: 5000,
+      foto:
+        "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Nasi putih yang hangat. Porsinya standar, bisa nambah.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 39,
+      kategori: "Wok Series",
+      nama: "Telur",
+      harga: 5000,
+      foto:
+        "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Telur dimasak. Bisa digoreng, direbus, atau diorak.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        topping: [
+          { nama: "Mie", harga: 5000 },
+          { nama: "Kornet", harga: 5000 },
+        ],
+      },
+    },
+    {
+      id: 40,
+      kategori: "Wok Series",
+      nama: "Kornet",
+      harga: 5000,
+      foto:
+        "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Kornet sosis, bisa request digoreng atau diheated.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 41,
+      kategori: "Wok Series",
+      nama: "Kerupuk",
+      harga: 5000,
+      foto:
+        "https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Kerupuk sebagai pelengkap wajib buat makan mie.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+
+    /* ===================== CHICKEN BOWL ===================== */
+    {
+      id: 42,
+      kategori: "Chicken Bowl",
+      nama: "Chicken Bowl Cabai Garam",
+      harga: 18000,
+      foto:
+        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Ayam dalam bowl dengan saus khas yang pedas dan gurih.",
+      badge: "Best Seller",
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+        topping: [
+          { nama: "Nasi", harga: 5000 },
+          { nama: "Kerupuk", harga: 3000 },
+        ],
+      },
+    },
+    {
+      id: 43,
+      kategori: "Chicken Bowl",
+      nama: "Chicken Bowl Teriyaki",
+      harga: 18000,
+      foto:
+        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Ayam dalam bowl dengan saus teriyaki yang manis legit.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        topping: [
+          { nama: "Nasi", harga: 5000 },
+          { nama: "Kerupuk", harga: 3000 },
+        ],
+      },
+    },
+    {
+      id: 44,
+      kategori: "Chicken Bowl",
+      nama: "Chicken Bowl Asam Manis",
+      harga: 18000,
+      foto:
+        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Ayam dalam bowl dengan saus asam manis yang balance.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+        topping: [
+          { nama: "Nasi", harga: 5000 },
+          { nama: "Kerupuk", harga: 3000 },
+        ],
+      },
+    },
+    {
+      id: 45,
+      kategori: "Chicken Bowl",
+      nama: "Chicken Bowl Katsu",
+      harga: 20000,
+      foto:
+        "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Ayam katsu crispy dengan saus khas dan nasi hangat.",
+      badge: "Komodo",
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+        topping: [
+          { nama: "Nasi", harga: 5000 },
+          { nama: "Kerupuk", harga: 3000 },
+        ],
+      },
+    },
+
+    /* ===================== INDOMIE ===================== */
+    {
+      id: 46,
+      kategori: "Indomie",
+      nama: "Indomie Goreng",
+      harga: 10000,
+      foto:
+        "https://images.unsplash.com/photo-1619895092538-0f92b0d1d3c4?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Indomie goreng dengan telur, kerupuk, atau dimsum.",
+      badge: "Komodo",
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+        topping: [
+          { nama: "Telur", harga: 3000 },
+          { nama: "Kornet", harga: 5000 },
+          { nama: "Dimsum", harga: 5000 },
+        ],
+      },
+    },
+    {
+      id: 47,
+      kategori: "Indomie",
+      nama: "Indomie Rebus",
+      harga: 10000,
+      foto:
+        "https://images.unsplash.com/photo-1619895092538-0f92b0d1d3c4?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Indomie rebus berkuah, bisa pedas atau polos.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+        topping: [
+          { nama: "Telur", harga: 3000 },
+          { nama: "Kornet", harga: 5000 },
+        ],
+      },
+    },
+    {
+      id: 48,
+      kategori: "Indomie",
+      nama: "Indomie Combo",
+      harga: 20000,
+      foto:
+        "https://images.unsplash.com/photo-1619895092538-0f92b0d1d3c4?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Indomie plus dimsum, kerupuk, dan minuman. Paket paling hemat.",
+      badge: "Paket Hemat",
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+      },
+    },
+    {
+      id: 49,
+      kategori: "Indomie",
+      nama: "Mie Kari Special",
+      harga: 20000,
+      foto:
+        "https://images.unsplash.com/photo-1619895092538-0f92b0d1d3c4?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Mie kari yang kental dan gurih dengan saus kedelai kental manis.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        levelPedas: ["Tidak Pedas", "Pedas Sedang", "Pedas Kental"],
+        topping: [
+          { nama: "Telur", harga: 3000 },
+          { nama: "Kornet", harga: 5000 },
+        ],
+      },
+    },
+
+    /* ===================== ROTI BAKAR ===================== */
+    {
+      id: 50,
+      kategori: "Roti Bakar",
+      nama: "Roti Bakar Coklat",
+      harga: 14000,
+      foto:
+        "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar coklat yang lumer dan masih hangat.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 51,
+      kategori: "Roti Bakar",
+      nama: "Roti Bakar Strawberry",
+      harga: 14000,
+      foto:
+        "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar isian strawberry yang manis dan fresh.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 52,
+      kategori: "Roti Bakar",
+      nama: "Roti Bakar Kacang",
+      harga: 14000,
+      foto:
+        "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar isian kacang yang gurih dan legit.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 53,
+      kategori: "Roti Bakar",
+      nama: "Roti Bakar Matcha",
+      harga: 15000,
+      foto:
+        "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar isian matcha yang sedikit pahit dan wangi.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 54,
+      kategori: "Roti Bakar",
+      nama: "Roti Bakar Tiramisu",
+      harga: 15000,
+      foto:
+        "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar isian tiramisu dengan susu dan cokelat.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 55,
+      kategori: "Roti Bakar",
+      nama: "Roti Bakar Nutella",
+      harga: 17000,
+      foto:
+        "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Roti bakar isian Nutella yang lumer, paling luxurious di menu ini.",
+      badge: "Komodo",
+      tersedia: true,
+      varian: {},
+    },
+
+    /* ===================== MINUMAN =====================
+       Harga 0 = belum dipublikasikan, tampil "Tanya Harga". */
+    {
+      id: 56,
+      kategori: "Minuman",
+      nama: "Tea",
+      harga: 12000,
+      foto:
+        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Teh hangat atau dingin, cocok buat nemenin ngopi sore.",
+      badge: null,
+      tersedia: true,
+      varian: {
+        suhu: ["Hangat", "Dingin"],
+        gula: ["Normal", "Less Sugar", "No Sugar"],
+      },
+    },
+    {
+      id: 57,
+      kategori: "Minuman",
+      nama: "Wark P",
+      harga: 12000,
+      foto:
+        "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Signature drink WARKAP. Cokelat kental dan creamy.",
+      badge: "Signature",
+      tersedia: true,
+      varian: {
+        suhu: ["Hangat", "Dingin"],
+        gula: ["Normal", "Less Sugar", "No Sugar"],
+      },
+    },
+    {
+      id: 58,
+      kategori: "Minuman",
+      nama: "Kopi Kapal Api",
+      harga: 0,
+      foto:
+        "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Kopi sachet klasik. Harga resmi belum dipublikasikan, tanya kasir.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 59,
+      kategori: "Minuman",
+      nama: "Kopi Liong",
+      harga: 0,
+      foto:
+        "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Kopi klasik legendaris. Harga belum dipublikasikan, tanya kasir.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 60,
+      kategori: "Minuman",
+      nama: "Good Day All Variant",
+      harga: 0,
+      foto:
+        "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Minuman siap minum semua varian. Harga belum dipublikasikan.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 61,
+      kategori: "Minuman",
+      nama: "Good Day Freeze Keju",
+      harga: 0,
+      foto:
+        "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Good Day freeze variant keju. Harga belum dipublikasikan.",
+      badge: null,
+      tersedia: true,
+      varian: {},
+    },
+    {
+      id: 62,
+      kategori: "Minuman",
+      nama: "Nutrisari All Variant",
+      harga: 0,
+      foto:
+        "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80",
+      deskripsi: "Nutrisari semua varian. Harga belum dipublikasikan, tanya kasir.",
+      badge: null,
+      tersedia: true,
+      varian: {},
     },
   ],
 };
 
-/* Pasang ke window supaya bisa dibaca script.js.
-   (Tidak perlu diubah / dihapus.) */
 if (typeof window !== "undefined") window.config = config;

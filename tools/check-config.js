@@ -28,6 +28,7 @@ const problems = [];
 
 function gagal(pesan) { problems.push("ERROR  " + pesan); error++; }
 function hati(pesan) { problems.push("WARN   " + pesan); warn++; }
+function info(pesan) { problems.push("INFO   " + pesan); }
 
 if (!fs.existsSync(configPath)) {
   console.error("config.js tidak ditemukan di: " + configPath);
@@ -106,7 +107,11 @@ if (!Array.isArray(cfg.menu) || !cfg.menu.length) {
     const harga = Number(m.harga);
     if (!Number.isFinite(harga)) gagal(t + ": harga bukan angka ('" + m.harga + "')");
     else if (harga < 0) gagal(t + ": harga negatif");
-    else if (harga < 100) hati(t + ": harga suspiciously kecil (" + harga + ")");
+    else if (harga === 0) {
+      info(t + ": harga 0 (Tanya Harga) - tampil tanpa angka, tidak bisa dipesan");
+
+
+    } else if (harga < 100) hati(t + ": harga suspiciously kecil (" + harga + ")");
 
     if (!m.foto) gagal(t + ": foto kosong, akan muncul placeholder");
     else if (!/^https?:\/\/|^\//.test(m.foto)) {

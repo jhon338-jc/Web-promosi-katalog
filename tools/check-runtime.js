@@ -9,7 +9,7 @@
 
    Yang diuji:
      - website bisa init tanpa error
-     - 20 menu ter-render ke #menu-grid
+     - semua menu ter-render ke #menu-grid
      - filter kategori terisi
      - keranjang ter-render ke sheet DAN sidebar (dengan id berbeda)
      - galeri, testimoni, FAQ ter-render
@@ -308,9 +308,11 @@ const galeriHtml = (elemen["gallery-grid"] && elemen["gallery-grid"].innerHTML) 
 const testiHtml = (elemen["testi-track"] && elemen["testi-track"].innerHTML) || "";
 const faqHtml = (elemen["faq-list"] && elemen["faq-list"].innerHTML) || "";
 
+const JUMLAH_MENU = 62;
+
 cek("tidak ada error saat init", !error, error && error.message);
 cek("judul halaman terisi", documentStub.title.length > 10, documentStub.title);
-cek("20 menu ter-render", (htmlMenu.match(/data-id="/g) || []).length === 20,
+cek("semua menu ter-render", (htmlMenu.match(/data-id="/g) || []).length === JUMLAH_MENU,
   (htmlMenu.match(/data-id="/g) || []).length + " kartu");
 cek("filter kategori terisi", htmlFilter.length > 20, htmlFilter.length + " karakter");
 cek("keranjang mobile ter-render", sheetHtml.indexOf("cart-foot") !== -1);
@@ -345,8 +347,8 @@ cek("JSON-LD valid", (function () {
 
 /*-onset: config harus terbaca */
 cek("window.config terbaca", !!(sandbox.window && sandbox.window.config));
-cek("jumlah menu di config 20",
-  sandbox.window && sandbox.window.config && sandbox.window.config.menu.length === 20);
+cek("jumlah menu di config sesuai JUMLAH_MENU",
+  sandbox.window && sandbox.window.config && sandbox.window.config.menu.length === JUMLAH_MENU);
 
 /*-onset: aset() harus menyesuaikan folder (uji hosting subfolder) */
 const fotoRelatif = (htmlMenu.match(/src="([^"]*nasi-goreng[^"]*)"/i) || [])[1] || "";
@@ -355,6 +357,43 @@ cek("path foto relatif ikut folder website",
   fotoRelatif === "https://warung.test/repo/images/menu/nasi-goreng.jpg", fotoRelatif);
 cek("path foto berawalan / ikut folder (bukan root domain)",
   fotoSlash === "https://warung.test/repo/images/menu/mie-goreng.jpg", fotoSlash);
+
+/*-onset:ydata WARKAP (buka nonstop + menu tanpa harga) */
+const CFGRt = sandbox.window.config;
+const jamBuka = CFGRt.jamBuka || {};
+
+cek("config menandai buka nonstop 24 jam", jamBuka.buka24Jam === true);
+cek("label 24 jam terisi", !!jamBuka.label24Jam, jamBuka.label24Jam);
+cek("tidak ada jam 08:00-21:00 yang bocor ke UI",
+  htmlMenu.indexOf("08:00 - 21:00") === -1 && statusText.indexOf("08:00") === -1,
+  statusText);
+
+const tanpaHarga = CFGRt.menu.filter((m) => Number(m.harga) === 0);
+cek("ada menu tanpa harga (Tanya Harga)", tanpaHarga.length > 0,
+  tanpaHarga.length + " menu");
+cek("semua menu tanpa harga tampil 'Tanya Harga'",
+  htmlMenu.split('class="price price-tanya"').length - 1 === tanpaHarga.length,
+  (htmlMenu.split('class="price price-tanya"').length - 1) + " label");
+cek("tidak ada Rp0 yang bocor",
+  htmlMenu.indexOf("Rp0") === -1 && htmlMenu.indexOf("Rp 0") === -1);
+
+/*-onset: fakta hero (rating, ulasan, rentang harga, 24 jam) */
+const factsHtml = (elemen["hero-facts"] && elemen["hero-facts"].innerHTML) || "";
+cek("hero-facts terisi", factsHtml.length > 0, factsHtml.length + " karakter");
+cek("rating 4,5 tampil di hero", /4,5/.test(factsHtml));
+cek("jumlah ulasan tampil di hero", /556/.test(factsHtml));
+cek("badge buka nonstop tampil di hero", /Buka nonstop/.test(factsHtml));
+
+/*-onset:fasilitas */
+const fasHtml = (elemen["hero-fasilitas-list"] && elemen["hero-fasilitas-list"].innerHTML) || "";
+cek("chip fasilitas ter-render", (fasHtml.match(/chip-fasilitas/g) || []).length > 0,
+  (fasHtml.match(/chip-fasilitas/g) || []).length + " chip");
+
+/*-onset:aksen warna per kategori (anti-monoton) */
+const katUnik = [...new Set(CFGRt.menu.map((m) => m.kategori))];
+cek("semua kartu punya data-kat untuk aksen warna",
+  (htmlMenu.match(/data-kat="/g) || []).length === CFGRt.menu.length,
+  katUnik.length + " kategori, " + (htmlMenu.match(/data-kat="/g) || []).length + " kartu");
 
 console.log("---------------------------------------------");
 console.log(" Elemen tiruan: " + dibuat + " | html: " + idsHtml.size + " id");

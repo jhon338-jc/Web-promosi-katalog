@@ -22,8 +22,8 @@
    ========================================================================== */
 
 /* Naikkan nomor ini setiap kali kamu mengubah file inti website. */
-const CACHE_VERSION = "v1.1.0";
-const CACHE_NAME = "katalog-warung-" + CACHE_VERSION;
+const CACHE_VERSION = "v2.0.0-warkap";
+const CACHE_NAME = "katalog-warkap-" + CACHE_VERSION;
 
 /* ------------------------------------------------------------------
    PATH ASET

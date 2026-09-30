@@ -2977,3 +2977,200 @@ a {
     border: 1px solid #ddd;
   }
 }
+
+
+/* ==========================================================================
+   WARKAP - VARIASI VISUAL (anti-monoton)
+   --------------------------------------------------------------------------
+   1. Kartu fakta hero: kategori, rating, rentang harga, badge 24 jam
+   2. Chip fasilitas
+   3. Label "Tanya Harga" untuk menu yang harganya belum dipublikasikan
+   4. Aksen warna per kategori supaya tiap section terasa beda,
+      tapi tetap satu keluarga warna (kopi/amber WARKAP)
+   5. State "reveal" yang tidak bisa diklik (aman tanpa JS)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. KARTU FAKTA HERO
+   -------------------------------------------------------------------------- */
+.hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.hero-facts[hidden] {
+  display: none;
+}
+
+.hero-fact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--r-full);
+  background: var(--card);
+  border: 1px solid var(--line, rgba(78, 52, 46, 0.12));
+  box-shadow: var(--sh-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--brown);
+}
+[data-theme="dark"] .hero-fact {
+  color: var(--text);
+  border-color: var(--line);
+}
+
+.hero-fact-ico {
+  display: inline-flex;
+  color: var(--amber);
+}
+.hero-fact-ico svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Bintang rating selalu kuning, apa pun tema yang aktif */
+.hero-fact-star {
+  color: var(--amber-dark);
+}
+[data-theme="dark"] .hero-fact-star {
+  color: var(--gold);
+}
+.hero-fact-star > span:first-child,
+.hero-fact-star > svg {
+  color: #f59e0b;
+  margin-right: 0.1rem;
+}
+
+/* Badge buka nonstop 24 jam: hijau "buka" */
+.hero-fact-24 {
+  color: #1b7f4b;
+  background: rgba(37, 211, 102, 0.1);
+  border-color: rgba(37, 211, 102, 0.35);
+}
+[data-theme="dark"] .hero-fact-24 {
+  color: #4ade80;
+  background: rgba(37, 211, 102, 0.14);
+  border-color: rgba(37, 211, 102, 0.4);
+}
+.hero-fact-24 .hero-fact-ico {
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   2. CHIP FASILITAS
+   -------------------------------------------------------------------------- */
+#hero-fasilitas[hidden] {
+  display: none;
+}
+.chip-fasilitas {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--r-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--brown);
+  background: rgba(255, 193, 7, 0.18);
+  border: 1px solid rgba(255, 143, 0, 0.28);
+}
+[data-theme="dark"] .chip-fasilitas {
+  color: var(--text);
+  background: rgba(255, 193, 7, 0.12);
+  border-color: rgba(255, 193, 7, 0.3);
+}
+.chip-fasilitas svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  color: var(--amber);
+  flex: none;
+}
+
+/* --------------------------------------------------------------------------
+   3. TANPA HARGA ("Tanya Harga")
+   -------------------------------------------------------------------------- */
+.price-tanya {
+  font-size: 0.98rem;
+  color: var(--muted);
+  font-style: italic;
+}
+[data-theme="dark"] .price-tanya {
+  color: var(--text-soft);
+}
+
+.btn-add:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* --------------------------------------------------------------------------
+   4. AKSEN WARNA PER KATEGORI
+   Setiap kategori dapat "--aksen" sendiri. Dipakai untuk garis atas kartu,
+   chip kategori, dan tombol "Tambah" supaya section tidak terlihat sama.
+   -------------------------------------------------------------------------- */
+.menu-card {
+  --aksen: var(--amber);
+}
+.menu-card[data-kat*="snack"] {
+  --aksen: #f97316;
+}
+.menu-card[data-kat*="snack series"] {
+  --aksen: #ef4444;
+}
+.menu-card[data-kat*="dessert"] {
+  --aksen: #ec4899;
+}
+.menu-card[data-kat*="ketan"] {
+  --aksen: #a855f7;
+}
+.menu-card[data-kat*="wok"] {
+  --aksen: #ea580c;
+}
+.menu-card[data-kat*="chicken"] {
+  --aksen: #d97706;
+}
+.menu-card[data-kat*="indomie"] {
+  --aksen: #eab308;
+}
+.menu-card[data-kat*="roti"] {
+  --aksen: #b45309;
+}
+.menu-card[data-kat*="minuman"] {
+  --aksen: #0ea5e9;
+}
+
+/* Garis aksen tipis di atas kartu + chip ikut warna kategori */
+.menu-card {
+  border-top: 3px solid var(--aksen);
+}
+.menu-card[data-kat] .chip-cat {
+  background: var(--aksen);
+  color: #fff;
+}
+.menu-card[data-kat] .btn-add:not(:disabled) {
+  background: var(--aksen);
+}
+.menu-card[data-kat] .btn-add:not(:disabled):hover {
+  filter: brightness(0.92);
+}
+
+/* Variasikan rasio foto sedikit per kategori supaya grid tidak "berbaris" */
+.menu-card[data-kat*="minuman"] .menu-card-media,
+.menu-card[data-kat*="dessert"] .menu-card-media {
+  aspect-ratio: 1 / 1;
+}
+
+/*aksen tidak boleh menimpa status "habis" */
+.menu-card.habis {
+  border-top-color: var(--line);
+}
+
+/* --------------------------------------------------------------------------
+   5. SAFE DEFAULT
+   Kalau JS mati, elemen yang diisi JS disembunyikan dari awal.
+   -------------------------------------------------------------------------- */
+[hidden] {
+  display: none !important;
+}

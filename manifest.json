@@ -1,7 +1,7 @@
 {
-  "name": "Katalog Menu Warung Makan Bu Sari",
-  "short_name": "Menu Bu Sari",
-  "description": "Lihat menu dan pesan lewat WhatsApp. Dapur rumahan, harga warung, siap delivery.",
+  "name": "WARKAP (Warkop by diatap) CIANJUR - Menu & Pesan",
+  "short_name": "WARKAP",
+  "description": "Katalog menu WARKAP Cianjur. Kedai kopi 24 jam, buka nonstop. Pesan dan tanya harga lewat WhatsApp.",
   "start_url": "./?utm_source=pwa",
   "scope": "./",
   "display": "standalone",
@@ -10,7 +10,7 @@
   "theme_color": "#FFC107",
   "lang": "id-ID",
   "dir": "ltr",
-  "categories": ["food", "shopping", "business"],
+  "categories": ["food", "shopping", "business", "coffee"],
   "icons": [
     {
       "src": "icons/icon-192.png",
@@ -42,7 +42,7 @@
     {
       "name": "Pesan via WhatsApp",
       "short_name": "Pesan",
-      "description": "Chat langsung ke warung",
+      "description": "Chat langsung ke WARKAP",
       "url": "./#menu",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     }
