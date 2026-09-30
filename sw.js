@@ -22,7 +22,7 @@
    ========================================================================== */
 
 /* Naikkan nomor ini setiap kali kamu mengubah file inti website. */
-const CACHE_VERSION = "v2.1.0-warkap-logo";
+const CACHE_VERSION = "v2.2.0-warkap-palet";
 const CACHE_NAME = "katalog-warkap-" + CACHE_VERSION;
 
 /* ------------------------------------------------------------------

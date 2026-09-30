@@ -27,27 +27,28 @@
      hijau_gelap / abu_hijau / oranye_hangat.
      Nama variabel sengaja dibiarkan (sunny/amber/brown/...) supaya seluruh
      class lama ikut berubah tanpa perlu menulis ulang seluruh CSS. */
-  --sunny: #7ba05b; /* hijau muda  - highlight, badge, hover */
-  --gold: #4a7c3f; /* hijau utama  - tombol & aksen */
-  --cream: #f5f1e8; /* krem       - background utama halaman */
-  --amber: #4a7c3f; /* hijau utama  - tombol utama / CTA */
-  --amber-dark: #3d6634; /* hijau tua  - hover */
-  --brown: #2e4a26; /* hijau gelap - judul & teks utama */
-  --muted: #5c6b54; /* abu hijau  - paragraf & deskripsi */
-  --card: #fdfcf8; /* putih tulang- card, navbar, container */
-  --wa: #25d366;
+  --sunny: #7ba05b; /* #7BA05B hijau muda  - highlight, badge, hover */
+  --gold: #4a7c3f; /* #4A7C3F hijau utama  - tombol & aksen */
+  --cream: #f5f1e8; /* #F5F1E8 krem          - background utama halaman */
+  --amber: #4a7c3f; /* #4A7C3F hijau utama  - tombol utama / CTA */
+  --amber-dark: #2e4a26; /* #2E4A26 hijau tua  - hover */
+  --brown: #2e4a26; /* #2E4A26 hijau gelap - judul & teks utama */
+  --muted: #5c6b54; /* #5C6B54 abu hijau  - paragraf & deskripsi */
+  --card: #fdfcf8; /* #FDFCF8 putih tulang- card, navbar, container */
+  --wa: #25d366; /* hijau WhatsApp (warna fungsi, bukan dekorasi) */
   --wa-dark: #1da851;
-  --promo: #e8a33d; /* oranye hangat - CTA sekunder & badge kecil */
-  --neutral: #eff3e6; /* sage sangat muda - background section */
-  --sage: #a8c686; /* hijau sage   - border card & aksen */
+  --promo: #e8a33d; /* #E8A33D oranye hangat - CTA sekunder & badge kecil */
+  --neutral: rgba(168, 198, 134, 0.14); /* #A8C686 14% - background section */
+  --sage: #a8c686; /* #A8C686 hijau sage   - border card & aksen */
   --orange: #e8a33d;
 
-  /* --- Turunan warna (dihitung manual, tetap valid) --- */
-  --sunny-soft: #e4eedf;
-  --sunny-tint: #f2f6ea;
-  --amber-soft: #d9e6ce;
-  --brown-deep: #22381c;
-  --line: #d6e2c4;
+  /* --- Turunan: HANYA alpha dari 8 warna palet di atas.
+         Tidak ada warna baru, tidak ada hue lain. --- */
+  --sunny-soft: rgba(168, 198, 134, 0.22); /* #A8C686 22% */
+  --sunny-tint: rgba(168, 198, 134, 0.12); /* #A8C686 12% */
+  --amber-soft: rgba(74, 124, 63, 0.12); /* #4A7C3F 12% */
+  --brown-deep: #2e4a26; /* #2E4A26 */
+  --line: rgba(168, 198, 134, 0.55); /* #A8C686 55% - garis pemisah */
 
   /* --- Permukaan & teks (dipakai juga untuk mode terang) --- */
   --bg: var(--cream);
@@ -108,30 +109,32 @@
    Diaktifkan lewat atribut  <html data-theme="dark">
    ========================================================================== */
 [data-theme="dark"] {
-  --bg: #16240f;
-  --surface: #1e3016;
-  --surface-2: #24381c;
-  --surface-3: #2b4222;
-  --text: #eaf3e2;
-  --text-soft: #b3c7a6;
-  --text-invert: #16240f;
-  --border: #35502a;
+  /* Mode gelap memakai warna yang sama dari palet:
+     background #2E4A26 (hijau tua), teks #F5F1E8 (krem),
+     permukaan = krem transparan di atas background (tetap satu warna palet). */
+  --bg: #2e4a26;
+  --surface: rgba(245, 241, 232, 0.06);
+  --surface-2: rgba(245, 241, 232, 0.03);
+  --surface-3: rgba(168, 198, 134, 0.12);
+  --text: #f5f1e8;
+  --text-soft: #a8c686;
+  --text-invert: #2e4a26;
+  --border: rgba(168, 198, 134, 0.28);
 
-  /* Aksen diredupkan supaya tidak menyilaukan di gelap */
-  --sunny: #6b8f50;
-  --gold: #5c8446;
-  --cream: #16240f;
-  --card: #1e3016;
-  --brown: #d8e8cc;
-  --muted: #a9bd9c;
-  --sage: #7d9c64;
-  --neutral: #1b2c14;
-  --line: #35502a;
+  --sunny: #7ba05b;
+  --gold: #4a7c3f;
+  --cream: #2e4a26;
+  --card: rgba(245, 241, 232, 0.06);
+  --brown: #f5f1e8;
+  --muted: #a8c686;
+  --sage: #a8c686;
+  --neutral: rgba(168, 198, 134, 0.12);
+  --line: rgba(168, 198, 134, 0.28);
 
-  --sunny-soft: #26381c;
-  --sunny-tint: #22341a;
-  --amber-soft: #2a3d1e;
-  --brown-deep: #101a0b;
+  --sunny-soft: rgba(168, 198, 134, 0.18);
+  --sunny-tint: rgba(168, 198, 134, 0.09);
+  --amber-soft: rgba(74, 124, 63, 0.3);
+  --brown-deep: #2e4a26;
 
   --sh-sm: 0 2px 10px rgba(0, 0, 0, 0.32);
   --sh: 0 6px 24px rgba(0, 0, 0, 0.38);
@@ -236,7 +239,7 @@ a {
   background: var(--cream);
 }
 [data-theme="dark"] ::-webkit-scrollbar-track {
-  background: #241609;
+  background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, var(--gold), var(--amber));
@@ -244,7 +247,7 @@ a {
   border: 3px solid var(--cream);
 }
 [data-theme="dark"] ::-webkit-scrollbar-thumb {
-  border-color: #241609;
+  border-color: var(--bg);
 }
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, var(--amber), var(--amber-dark));
@@ -464,7 +467,7 @@ a {
   flex: none;
 }
 .status-dot.buka {
-  background: #16a34a;
+  background: var(--gold);
   animation: pulse-dot 2s ease-out infinite;
 }
 .status-dot.tutup {
@@ -524,7 +527,7 @@ a {
   box-shadow: 0 6px 20px rgba(255, 143, 0, 0.35);
 }
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--amber-dark), #bf360c);
+  background: var(--amber-dark);
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 10px 28px rgba(230, 81, 0, 0.42);
 }
@@ -595,7 +598,7 @@ a {
     box-shadow var(--dur) var(--ease);
 }
 .btn-add:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--amber-dark), #bf360c);
+  background: var(--amber-dark);
   transform: scale(1.05);
   box-shadow: 0 8px 22px rgba(230, 81, 0, 0.4);
 }
@@ -693,19 +696,17 @@ a {
   white-space: nowrap;
 }
 .badge-best {
-  background: linear-gradient(135deg, #e8a33d, #d18b28);
+  background: var(--promo);
   color: #ffffff;
 }
 .badge-baru {
-  background: linear-gradient(135deg, #4fc3f7, #0288d1);
-  color: #fff;
+  background: var(--sunny);
 }
 .badge-promo {
-  background: linear-gradient(135deg, #ef5350, #c62828);
-  color: #fff;
+  background: var(--promo);
 }
 .badge-habis {
-  background: #9e9e9e;
+  background: var(--muted);
   color: #fff;
 }
 
@@ -771,13 +772,13 @@ a {
 .skeleton {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg, #fdeec2 25%, #fff6dd 50%, #fdeec2 75%);
+  background: linear-gradient(90deg, rgba(168,198,134,0.16) 25%, rgba(168,198,134,0.30) 50%, rgba(168,198,134,0.16) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite linear;
   border-radius: var(--r-sm);
 }
 [data-theme="dark"] .skeleton {
-  background: linear-gradient(90deg, #4a3320 25%, #5c4028 50%, #4a3320 75%);
+  background: linear-gradient(90deg, rgba(168,198,134,0.10) 25%, rgba(168,198,134,0.20) 50%, rgba(168,198,134,0.10) 75%);
   background-size: 200% 100%;
 }
 @keyframes shimmer {
@@ -1022,20 +1023,22 @@ a {
   }
 }
 /* Desktop: ruang untuk sidebar keranjang */
-@media (min-width: 1024px) {
+/* Sidebar keranjang baru muncul di >=1280px. Di bawah itu keranjang
+   diletakkan di bawah grid, supaya card menu tidak ikut sempit. */
+@media (min-width: 1280px) {
   .layout-with-cart {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 350px;
     gap: 1.75rem;
     align-items: start;
   }
+  /* Grid menu: jumlah kolom dihitung dari ruang yang benar-benar ada.
+     minmax(220px, 1fr) = lebar card TIDAK PERNAH kurang dari 220px.
+     Sebelumnya di >=1440px dipaksa 4 kolom padahal sidebar keranjang
+     masih ambil 350px, jadi card jadi mengecil (253px -> 184px) dan
+     tombol "Tambah" ikut gepeng. */
   .menu-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-@media (min-width: 1440px) {
-  .menu-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
 }
 
@@ -2032,7 +2035,7 @@ a {
   color: var(--gold);
 }
 .total-row.free .val {
-  color: #16a34a;
+  color: var(--gold);
 }
 
 /* Blok pembayaran di keranjang */
@@ -2246,7 +2249,7 @@ a {
   place-items: center;
   background: radial-gradient(
     circle at 30% 25%,
-    #fff6dd,
+    var(--card),
     var(--sunny-soft)
   );
   color: var(--amber);
@@ -2999,7 +3002,7 @@ a {
   .menu-card {
     break-inside: avoid;
     box-shadow: none;
-    border: 1px solid #ddd;
+    border: 1px solid var(--line);
   }
 }
 
@@ -3064,18 +3067,18 @@ a {
 }
 .hero-fact-star > span:first-child,
 .hero-fact-star > svg {
-  color: #f59e0b;
+  color: var(--promo);
   margin-right: 0.1rem;
 }
 
 /* Badge buka nonstop 24 jam: hijau "buka" */
 .hero-fact-24 {
-  color: #1b7f4b;
+  color: var(--gold);
   background: rgba(37, 211, 102, 0.1);
   border-color: rgba(37, 211, 102, 0.35);
 }
 [data-theme="dark"] .hero-fact-24 {
-  color: #4ade80;
+  color: var(--sunny);
   background: rgba(37, 211, 102, 0.14);
   border-color: rgba(37, 211, 102, 0.4);
 }
@@ -3131,45 +3134,20 @@ a {
 }
 
 /* --------------------------------------------------------------------------
-   4. AKSEN WARNA PER KATEGORI  (satu keluarga hijau, bukan pelangi)
-   Variasi tetap ada, tapi semua warna diturunkan dari palet eco supaya grid
-   terlihat hidup tanpa berantakan. Oranye #E8A33D hanya untuk badge kecil.
+   4. AKSEN WARNA PER KATEGORI
+   Semua kategori memakai warna yang SAMA dari palet (--gold = #4A7C3F).
+   Tidak ada warna per kategori supaya grid tidak terlihat acak-acakan.
+   Kalau nanti mau dibedakan, hanya boleh memakai 8 warna palet di bawah.
+   Palet: #4A7C3F #7BA05B #A8C686 #F5F1E8 #FDFCF8 #2E4A26 #5C6B54 #E8A33D
    -------------------------------------------------------------------------- */
 .menu-card {
-  --aksen: #4a7c3f; /* hijau utama */
-}
-.menu-card[data-kat*="snack series"] {
-  --aksen: #3f6b35; /* hijau paling tua */
-}
-.menu-card[data-kat*="snack"] {
-  --aksen: #4a7c3f;
-}
-.menu-card[data-kat*="wok"] {
-  --aksen: #568a4e;
-}
-.menu-card[data-kat*="chicken"] {
-  --aksen: #5c8446;
-}
-.menu-card[data-kat*="indomie"] {
-  --aksen: #6b9455;
-}
-.menu-card[data-kat*="roti"] {
-  --aksen: #7ba05b; /* hijau muda */
-}
-.menu-card[data-kat*="dessert"] {
-  --aksen: #6f9b60;
-}
-.menu-card[data-kat*="ketan"] {
-  --aksen: #7ba05b;
-}
-.menu-card[data-kat*="minuman"] {
-  --aksen: #63915a;
+  --aksen: var(--gold); /* #4A7C3F untuk semua kategori */
 }
 
-/* Aksen dipakai HANYA di chip kategori - bukan di garis atas kartu,
-   supaya semua kartu terlihat seragam dan rapi. */
+/* Aksen dipakai HANYA di chip kategori - bukan di garis atas kartu.
+   Tetap menggunakan palet hijau: var(--gold) (#4A7C3F), tidak membuat warna baru. */
 .menu-card[data-kat] .chip-cat {
-  background: var(--aksen);
+  background: var(--gold);
   color: #fff;
 }
 
@@ -3396,13 +3374,13 @@ a {
   color: var(--sage);
 }
 .hero .hero-fact-star {
-  color: #ffe6b0;
+  color: #f5f1e8;
 }
 .hero .hero-fact-star .opacity-70 {
   color: rgba(255, 255, 255, 0.72) !important;
 }
 .hero .hero-fact-24 {
-  color: #bff0cd;
+  color: var(--sage);
   background: rgba(37, 211, 102, 0.2);
   border-color: rgba(255, 255, 255, 0.32);
 }
@@ -3536,7 +3514,7 @@ a {
   box-shadow: 0 6px 20px rgba(74, 124, 63, 0.32);
 }
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--amber-dark), #33562c);
+  background: var(--amber-dark);
   transform: translateY(-2px);
   box-shadow: 0 10px 28px rgba(61, 102, 52, 0.38);
 }
@@ -3753,43 +3731,66 @@ a {
   opacity: 0.6;
 }
 
-/* 11c. Baris bawah kartu: tinggi tetap + alignment rapi.
-   min-height diset ke 2 baris (harga + chip "+ varian") supaya kartu
-   yang pakai chip dan yang tidak (mis. "Tanya Harga") tetap sama tinggi. */
+/* 11c. Baris bawah kartu pakai GRID, bukan flex.
+   Kolom 1 = harga (fleksibel, boleh jadi 2 baris), kolom 2 = tombol (auto).
+   Kolom "auto" ikut isi tombol dan tidak pernah dikecilkan, jadi tombol
+   "Tambah" tidak lagi nyusut tidak stabil di layar desktop. */
 .menu-card-foot {
-  min-height: 5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem 0.65rem;
   padding-top: 0.7rem;
   border-top: 1px solid var(--line);
-  align-items: center;
 }
 .menu-card-foot .price {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: flex-start;
   gap: 0.25rem;
   min-width: 0;
   line-height: 1.2;
 }
 .menu-card-foot .price .price-strike {
   margin: 0;
-  align-self: flex-start;
 }
 
-/* 11d. Tombol "Tambah" seragam: lebar & tinggi sama persis di semua kartu
-   (Tambah / Tanya / HABIS semua ukuran yang sama). */
+/* 11d. Tombol "Tambah" lebarnya mengikuti isi (tidak dikunci 6.5rem).
+   min-width supaya semua tombol tetap sama, tapi tidak memaksa card
+   jadi sempit sehingga harga tergencet. */
 .btn-add {
-  width: 6.5rem;
-  min-width: 6.5rem;
-  height: 2.6rem;
-  padding-inline: 0.5rem;
+  width: auto;
+  min-width: 6.125rem;
+  height: 2.5rem;
+  padding-inline: 0.85rem;
   flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
   font-size: 0.82rem;
   font-weight: 700;
   white-space: nowrap;
+}
+
+/* 11d2. Di bawah 1024px card menu sempit, jadi harga + tombol ditumpuk:
+   harga di atas, tombol selebar card. Efeknya sama persis dengan mode HP,
+   jadi tidak lagi "loncat-loncat" antar layar. */
+@media (max-width: 1023px) {
+  .menu-card-foot {
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+  }
+  .btn-add {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Dark mode: background halaman dan footer sama-sama #2E4A26, jadi
+   footer diberi garis atas sage supaya tidak nempel dengan konten. */
+[data-theme="dark"] .footer {
+  border-top: 1px solid var(--sage);
 }
 
 /* 11e. Label "Tanya Harga" seragam, tidak italic */
