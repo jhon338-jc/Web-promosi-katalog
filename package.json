@@ -1,0 +1,29 @@
+{
+  "name": "katalog-menu-warung",
+  "version": "1.1.0",
+  "description": "Source code katalog menu warung/kedai dengan checkout WhatsApp, dark mode, Panel Pemilik, dan PWA. Tanpa database, tanpa build.",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE.md",
+  "scripts": {
+    "check": "node tools/check-config.js && node tools/check-wiring.js && node tools/check-clean.js && node tools/check-runtime.js",
+    "check:config": "node tools/check-config.js",
+    "check:wiring": "node tools/check-wiring.js",
+    "check:clean": "node tools/check-clean.js",
+    "check:runtime": "node tools/check-runtime.js",
+    "icons": "node tools/make-icons.js",
+    "serve": "node tools/serve.js"
+  },
+  "keywords": [
+    "katalog",
+    "menu",
+    "warung",
+    "kedai",
+    "whatsapp",
+    "pwa",
+    "UMI",
+    "UMKM"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

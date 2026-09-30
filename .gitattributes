@@ -1,0 +1,14 @@
+# Pastikan file web selalu memakai line ending LF (LF -> CRLF bikin diff penuh)
+* text=auto eol=lf
+
+# File biner: jangan diubah sama sekali
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.zip binary
+
+# Batch file tetap CRLF (khusus Windows)
+*.bat text eol=crlf
+*.cmd text eol=crlf

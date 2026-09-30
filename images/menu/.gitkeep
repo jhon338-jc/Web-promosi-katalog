@@ -1,0 +1,15 @@
+Folder ini untuk foto menu warung.
+
+Contoh nama file yang disarankan (huruf kecil, tanpa spasi):
+  nasi-goreng.jpg
+  nasi-ayam.jpg
+  sate-ayam.jpg
+  soto-ayam.jpg
+  mie-goreng.jpg
+
+Setelah foto ditaruh di sini, tulis path-nya di config.js:
+  foto: "images/menu/nasi-goreng.jpg"
+
+Atau lebih gampang: buka Panel Pemilik di website (ikon pensil) -> tab Foto.
+
+Lihat ../README.md untuk penjelasan lengkap.

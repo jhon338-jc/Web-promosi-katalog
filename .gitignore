@@ -1,0 +1,33 @@
+# Log & cache
+*.log
+npm-debug.log*
+.cache/
+
+# Node.js (project ini tidak butuh dependency, tapi untuk jaga-jaga)
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+
+# Berkas sementara hasil edit
+*_patch-block.txt
+tools/_patch-block.txt
+*.tmp
+*.bak
+*.orig
+*.rej
+
+# Jangan pernah commit data sensitif
+.env
+.env.*
+*.pem
+*.key

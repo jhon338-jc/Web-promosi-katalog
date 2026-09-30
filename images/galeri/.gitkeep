@@ -1,0 +1,7 @@
+Folder ini untuk foto suasana warung (galeri).
+
+Contoh nama file: 1.jpg, 2.jpg, 3.jpg, dan seterusnya.
+Tulis path-nya di config.js bagian "galeri":
+  galeri: [{ foto: "images/galeri/1.jpg", judul: "Suasana warung" }]
+
+Lihat ../README.md untuk penjelasan lengkap.
